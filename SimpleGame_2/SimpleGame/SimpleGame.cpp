@@ -14,16 +14,20 @@ but WITHOUT ANY WARRANTY.
 #include "Dependencies\freeglut.h"
 
 #include "Renderer.h"
+#include "Actor.h"
 
 Renderer *g_Renderer = NULL;
 
+Actor simpleActor;
+
+#pragma region [Core Functions]
 void RenderScene(void)
 {
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	glClearColor(0.0f, 0.3f, 0.3f, 1.0f);
 
 	// Renderer Test
-	g_Renderer->DrawSolidRect(0, 0, 0, 4, 1, 0, 1, 1);
+	simpleActor.Draw(*g_Renderer);
 
 	glutSwapBuffers();
 }
@@ -47,9 +51,11 @@ void SpecialKeyInput(int key, int x, int y)
 {
 	RenderScene();
 }
+#pragma endregion
 
 int main(int argc, char **argv)
 {
+#pragma region [Init GL]
 	// Initialize GL things
 	glutInit(&argc, argv);
 	glutInitDisplayMode(GLUT_DEPTH | GLUT_DOUBLE | GLUT_RGBA);
@@ -73,17 +79,20 @@ int main(int argc, char **argv)
 	{
 		std::cout << "Renderer could not be initialized.. \n";
 	}
-
+#pragma endregion
+#pragma region [Binding Function]
 	glutDisplayFunc(RenderScene);
 	glutIdleFunc(Idle);
 	glutKeyboardFunc(KeyInput);
 	glutMouseFunc(MouseInput);
 	glutSpecialFunc(SpecialKeyInput);
+#pragma endregion
 
 	glutMainLoop();
 
+#pragma region [EXIT Program]
 	delete g_Renderer;
-
     return 0;
+#pragma endregion
 }
 
