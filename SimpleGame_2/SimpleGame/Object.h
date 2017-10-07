@@ -31,14 +31,14 @@ private:
 	
 public:
 	Object();
-	~Object();
+	virtual ~Object();
 	
 
 	void SetColor(Vector& inputColor);
 
 	void SetPos(float x, float y);
 
-	void Update();
-	void Draw(Renderer&);
+	virtual void Update();
+	virtual void Draw(Renderer&);
 };
 

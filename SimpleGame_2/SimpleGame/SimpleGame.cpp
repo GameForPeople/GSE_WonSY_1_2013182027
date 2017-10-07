@@ -13,7 +13,6 @@ but WITHOUT ANY WARRANTY.
 #include "Dependencies\glew.h"
 #include "Dependencies\freeglut.h"
 
-#include "Renderer.h"
 #include "Actor.h"
 
 Renderer *g_Renderer = NULL;

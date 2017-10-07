@@ -6,7 +6,5 @@ class Pawn :
 public:
 	Pawn();
 	~Pawn();
-
-
 };
 
