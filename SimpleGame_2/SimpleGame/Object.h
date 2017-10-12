@@ -5,28 +5,25 @@
 struct Pos2D {
 	float x;
 	float y;
+
+	void CalCulNomalVector(float arguX, float arguY) {
+		x = (arguX / sqrt(arguX * arguX + arguY * arguY));
+		y = (arguY / sqrt(arguX * arguX + arguY * arguY));
+	}
 };
 
-struct Vector {
+struct Vector4f {
 	float x;
 	float y;
 	float z;
 	float a;
 };
 
-enum class Direction
-{
-	Up = 1,
-	Down = 2,
-	Left = 3,
-	Right = 4
-};
-
 class Object
 {
-private:
+protected:
 	Pos2D m_pos;
-	Vector m_color;
+	Vector4f m_color;
 	float m_size;
 	
 public:
@@ -34,8 +31,7 @@ public:
 	virtual ~Object();
 	
 
-	void SetColor(Vector& inputColor);
-
+	void SetColor(Vector4f& inputColor);
 	void SetPos(float x, float y);
 
 	virtual void Update();

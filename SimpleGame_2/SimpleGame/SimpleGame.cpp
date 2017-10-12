@@ -17,7 +17,9 @@ but WITHOUT ANY WARRANTY.
 
 Renderer *g_Renderer = NULL;
 
-Actor simpleActor;
+Actor simpleActor({ 10.0f, 10.0f }, 10.0f, { 1.0f, 1.0f, 1.0f, 1.0f }, 0.01f, { 1.0f, 0.0f });
+
+float x, y;
 
 #pragma region [Core Functions]
 void RenderScene(void)
@@ -33,6 +35,7 @@ void RenderScene(void)
 
 void Idle(void)
 {
+	simpleActor.Move();
 	RenderScene();
 }
 

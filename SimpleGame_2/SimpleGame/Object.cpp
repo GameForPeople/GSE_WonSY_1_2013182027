@@ -14,20 +14,20 @@ Object::~Object()
 {
 }
 
-void Object::Update() {
-
-}
-
 void Object::Draw(Renderer& g_Renderer) {
 	g_Renderer.DrawSolidRect(m_pos.x, m_pos.y, 0, m_size, m_color.x, m_color.y, m_color.z, m_color.a);
 }
 
-void Object::SetColor(Vector& inputColor) {
+void Object::SetColor(Vector4f& inputColor) {
 	m_color = inputColor;
 }
 
 void Object::SetPos(float x, float y) {
 	m_pos.x += x;
 	m_pos.y += y;
+}
+
+void Object::Update() {
+
 }
 
