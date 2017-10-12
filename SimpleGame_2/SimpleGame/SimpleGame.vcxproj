@@ -157,6 +157,7 @@
   <ItemGroup>
     <ClInclude Include="Actor.h" />
     <ClInclude Include="Framework.h" />
+    <ClInclude Include="InGameScene.h" />
     <ClInclude Include="Object.h" />
     <ClInclude Include="Pawn.h" />
     <ClInclude Include="Renderer.h" />
@@ -167,6 +168,7 @@
   <ItemGroup>
     <ClCompile Include="Actor.cpp" />
     <ClCompile Include="Framework.cpp" />
+    <ClCompile Include="InGameScene.cpp" />
     <ClCompile Include="Object.cpp" />
     <ClCompile Include="Pawn.cpp" />
     <ClCompile Include="Renderer.cpp" />

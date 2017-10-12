@@ -1,9 +1,11 @@
 #pragma once
-class Scene
+#include "Scene.h"
+class InGameScene :
+	public Scene
 {
 public:
-	Scene();
-	~Scene();
+	InGameScene();
+	~InGameScene();
 
 	virtual void Create();
 	virtual void Update();
