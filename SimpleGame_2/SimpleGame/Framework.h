@@ -1,17 +1,18 @@
 #pragma once
 
-#include "Renderer.h"
+#include "Scene.h"
 #include "InGameScene.h"
 
 class Framework
 {
 private:
-	Renderer *myRenderer;
+	Scene *m_sceneArr;
+
 public:
 	Framework();
 	~Framework();
 
-	void Create(Renderer&);
+	void Create();
 	void Update();
 	void Draw();
 	void KeyProc(unsigned char key, int specKey);
