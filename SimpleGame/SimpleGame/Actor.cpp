@@ -61,6 +61,8 @@ void Actor::Move(Direction dir) {
 void Actor::Move() {
 	m_pos.x = m_pos.x + m_dirVector.x * m_speed;
 	m_pos.y = m_pos.y + m_dirVector.y * m_speed;
+
+	std::cout << m_pos.x << " " << m_pos.y << " " << m_speed << " ";
 }
 
 void Actor::SetSpeed(float speed) {

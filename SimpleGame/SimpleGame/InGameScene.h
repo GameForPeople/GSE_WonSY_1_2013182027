@@ -8,7 +8,6 @@ class InGameScene :
 {
 public:
 	InGameScene();
-
 	~InGameScene();
 
 	virtual void Create();
