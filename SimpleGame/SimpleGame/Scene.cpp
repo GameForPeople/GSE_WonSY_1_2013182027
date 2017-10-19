@@ -13,8 +13,6 @@ Scene::~Scene()
 
 
 void Scene::Create() {
-	//myRenderer = new Renderer(500,500);
-	//myRenderer = &paRenderer;
 
 }
 

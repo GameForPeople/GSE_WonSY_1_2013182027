@@ -14,7 +14,7 @@ Object::~Object()
 {
 }
 
-void Object::Draw(Renderer& g_Renderer) {
+void Object::Draw(Renderer g_Renderer) {
 	g_Renderer.DrawSolidRect(m_pos.x, m_pos.y, 0, m_size, m_color.x, m_color.y, m_color.z, m_color.a);
 }
 

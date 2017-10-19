@@ -35,6 +35,6 @@ public:
 	void SetPos(float x, float y);
 
 	virtual void Update();
-	virtual void Draw(Renderer&);
+	void Draw(Renderer);
 };
 

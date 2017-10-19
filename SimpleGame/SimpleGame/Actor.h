@@ -28,9 +28,14 @@ public:
 	Actor(float x, float y, float size, Vector4f color, float speed, float vectorX, float vectorY);	
 	Actor(float x, float y, float size, float colorR, float colorG, float colorB, float colorAlpha, float speed, float vectorX, float vectorY);
 	virtual ~Actor();
+	
+	virtual void SetActor(float x, float y, float size, float colorR, float colorG, float colorB, float colorAlpha, float speed, float vectorX, float vectorY);
 
-	void Move(Direction dir);
-	void Move();
+	virtual void Update();
+	virtual void Move(Direction dir);
+	virtual void Move();
+
+	virtual void LimitMove();
 
 	void SetSpeed(float);
 };
