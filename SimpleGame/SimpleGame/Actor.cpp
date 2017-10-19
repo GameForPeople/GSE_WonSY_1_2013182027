@@ -101,12 +101,26 @@ void Actor::SetSpeed(float speed) {
 }
 
 void Actor::LimitMove() {
-	if (m_pos.x <= -250 || m_pos.x >= 250) {
+	if (m_pos.x < -250 || m_pos.x > 250) {
 		m_dirVector.x *= -1;
+
+		if (m_pos.x < -250) {
+			m_pos.x = -250;
+		}
+		else if (m_pos.x > 250) {
+			m_pos.x = 250;
+		}
 	}
 
-	if (m_pos.y <= -250 || m_pos.y >= 250) {
+	if (m_pos.y < -250 || m_pos.y > 250) {
 		m_dirVector.y *= -1;
+
+		if (m_pos.y < -250) {
+			m_pos.y = -250;
+		}
+		else if (m_pos.y > 250) {
+			m_pos.y = 250;
+		}
 	}
 }
 

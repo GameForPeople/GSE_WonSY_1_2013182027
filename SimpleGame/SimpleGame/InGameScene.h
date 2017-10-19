@@ -26,6 +26,5 @@ private:
 	std::vector<Actor>		m_actorArr;
 	int						m_sceneObjectNum = 0;
 
-	Actor					m_testActor;
 };
 

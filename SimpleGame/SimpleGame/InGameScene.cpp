@@ -6,13 +6,12 @@ InGameScene::InGameScene()
 	myRenderer = new Renderer(CLIENT_WIDTH, CLIENT_HEIGHT);
 	myRenderer->IsInitialized();
 
-
-	m_testActor.SetActor((float)1, (float)1, 10, 1, 1, 1, 1, 0.3f, 1.0f, 1.0f);
 }
 
 InGameScene::~InGameScene()
 {
 	delete myRenderer;
+	m_actorArr.~vector();
 }
 
 void InGameScene::Create() {
@@ -20,22 +19,19 @@ void InGameScene::Create() {
 }
 
 void InGameScene::Update() {
-	//for (auto i : actorArr) {
+	//for (auto i : m_actorArr) {
 	//	i.Update();
 	//}
-	//
+	
 	for (int i = 0; i < m_sceneObjectNum; i++) {
 		m_actorArr[i].Update();
 	}
-	m_testActor.Update();
 }
 
 void InGameScene::Draw() {
 	for (auto i : m_actorArr) {
 		i.Draw(*myRenderer);
 	}
-
-	m_testActor.Draw(*myRenderer);
 }
 
 void InGameScene::KeyProc(unsigned char key, int specKey) {
