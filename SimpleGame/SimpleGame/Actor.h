@@ -13,6 +13,10 @@ enum class Direction
 	DownRight,
 };
 
+struct BoundingBox {
+
+};
+
 class Actor :
 	public Object
 {
@@ -31,11 +35,15 @@ public:
 	
 	virtual void SetActor(float x, float y, float size, float colorR, float colorG, float colorB, float colorAlpha, float speed, float vectorX, float vectorY);
 
-	virtual void Update();
+	virtual void Update(DWORD elapsedTime);
 	virtual void Move(Direction dir);
-	virtual void Move();
+	virtual void Move(DWORD elapsedTime);
 
 	virtual void LimitMove();
+
+	Pos2D GetPos();
+	float GetSize();
+
 
 	void SetSpeed(float);
 };

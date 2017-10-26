@@ -26,15 +26,28 @@ protected:
 	Vector4f m_color;
 	float m_size;
 	
+	int m_life{ 20 };
+	int m_lifeCount{};
 public:
 	Object();
 	virtual ~Object();
 	
 
 	void SetColor(Vector4f& inputColor);
+	void SetColor(float x, float y, float z, float alpha);
+
 	void SetPos(float x, float y);
 
 	virtual void Update();
 	void Draw(Renderer);
+
+	int GetLife() { return m_life; }
+	void UpdateLifeCount() {
+		m_lifeCount++; if (m_lifeCount > 5000) {
+			m_life--; m_lifeCount = 0;
+		}
+	}
+	void Damaged() { //m_life--; 
+	}
 };
 

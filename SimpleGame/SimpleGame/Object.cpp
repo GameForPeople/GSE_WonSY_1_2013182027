@@ -22,6 +22,14 @@ void Object::SetColor(Vector4f& inputColor) {
 	m_color = inputColor;
 }
 
+void Object::SetColor(float x, float y, float z, float alpha) {
+	m_color.x = x;
+	m_color.y = y;
+	m_color.z = z;
+	m_color.a = alpha;
+
+}
+
 void Object::SetPos(float x, float y) {
 	m_pos.x += x;
 	m_pos.y += y;

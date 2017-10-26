@@ -7,11 +7,18 @@ it under the terms of the What The Hell License. Do it plz.
 This program is distributed in the hope that it will be useful,
 but WITHOUT ANY WARRANTY.
 */
+#pragma comment(lib, "winmm.lib") 
 
 #include "stdafx.h"
 #include "Framework.h"
 
+#include <Windows.h>
+#include <Mmsystem.h>
+
 Framework *myFramework = NULL;
+
+DWORD g_prevTime{};
+float m_fStartTime = (float)timeGetTime() * 0.001f;
 
 #pragma region [Core Functions]
 void RenderScene(void)
@@ -26,9 +33,23 @@ void RenderScene(void)
 
 void Idle(void)
 {
-	myFramework->Update();
+	DWORD currTime = timeGetTime();
+	DWORD elapsedTime = currTime - g_prevTime;
+
+	float NowTime = (float)timeGetTime() * 0.001f;
+	//while (7) {
+		//std::cout << NowTime - m_fStartTime << std::endl;
+		//if (NowTime - m_fStartTime >= 0.001f) {
+			myFramework->Update(elapsedTime);
+			//break;
+		//}
+		//NowTime = (float)timeGetTime() * 0.001f;
+	//}
 
 	RenderScene();
+
+	g_prevTime = currTime;
+	m_fStartTime = NowTime;
 }
 
 void MouseInput(int button, int state, int x, int y)
@@ -70,6 +91,7 @@ int main(int argc, char **argv)
 		std::cout << "GLEW 3.0 not supported\n ";
 	}
 
+	g_prevTime = timeGetTime();
 	myFramework = new Framework();
 	// Initialize Renderer
 	//g_Renderer = new Renderer(500, 500);

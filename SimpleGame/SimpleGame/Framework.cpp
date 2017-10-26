@@ -15,8 +15,8 @@ void Framework::Create() {
 	
 }
 
-void Framework::Update() {
-	m_sceneArr->Update();
+void Framework::Update(DWORD elapsedTime) {
+	m_sceneArr->Update(elapsedTime);
 }
 
 void Framework::Draw() {

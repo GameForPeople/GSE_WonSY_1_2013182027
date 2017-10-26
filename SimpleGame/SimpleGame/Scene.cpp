@@ -16,7 +16,7 @@ void Scene::Create() {
 
 }
 
-void Scene::Update() {
+void Scene::Update(DWORD elapsedTime) {
 
 }
 

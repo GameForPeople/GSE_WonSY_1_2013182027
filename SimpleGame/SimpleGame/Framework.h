@@ -13,7 +13,7 @@ public:
 	~Framework();
 
 	void Create();
-	virtual void Update();
+	virtual void Update(DWORD);
 	void Draw();
 	void KeyProc(unsigned char key, int specKey);
 	void MouseProc(int button, int state, int x, int y);

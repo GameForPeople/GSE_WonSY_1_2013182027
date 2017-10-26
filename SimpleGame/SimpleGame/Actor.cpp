@@ -15,6 +15,8 @@ Actor::Actor()
 	m_speed = 0.1;
 
 	m_dirVector.CalCulNomalVector(0.5, 0.5);
+
+
 }
 
 Actor::Actor(Pos2D pos, float size, Vector4f color, float speed, Pos2D direction) {
@@ -23,6 +25,8 @@ Actor::Actor(Pos2D pos, float size, Vector4f color, float speed, Pos2D direction
 	m_color = color;
 	m_speed = speed;
 	m_dirVector = direction;
+
+
 }
 
 Actor::Actor(float x, float y, float size, Vector4f color, float speed, float vectorX, float vectorY) {
@@ -33,6 +37,8 @@ Actor::Actor(float x, float y, float size, Vector4f color, float speed, float ve
 	m_speed = speed;
 
 	m_dirVector.CalCulNomalVector(vectorX, vectorY);
+
+
 }
 
 Actor::Actor(float x, float y, float size, float colorR, float colorG, float colorB, float colorAlpha, float speed, float vectorX, float vectorY) {
@@ -47,6 +53,8 @@ Actor::Actor(float x, float y, float size, float colorR, float colorG, float col
 	m_speed = speed;
 
 	m_dirVector.CalCulNomalVector(vectorX, vectorY);
+
+
 }
 
 void Actor::SetActor(float x, float y, float size, float colorR, float colorG, float colorB, float colorAlpha, float speed, float vectorX, float vectorY) {
@@ -61,8 +69,8 @@ void Actor::SetActor(float x, float y, float size, float colorR, float colorG, f
 	m_speed = speed;
 
 	m_dirVector.CalCulNomalVector(vectorX, vectorY);
-}
 
+}
 
 Actor::~Actor()
 {
@@ -84,20 +92,29 @@ void Actor::Move(Direction dir) {
 	}
 }
 
-void Actor::Update() {
-	this->Move();
+void Actor::Update(DWORD elapsedTime) {
+	this->Move(elapsedTime);
 	this->LimitMove();
+	this->UpdateLifeCount();
 }
 
-void Actor::Move() {
-	m_pos.x = m_pos.x + m_dirVector.x * m_speed;
-	m_pos.y = m_pos.y + m_dirVector.y * m_speed;
+void Actor::Move(DWORD elapsedTime) {
+	m_pos.x = m_pos.x + m_dirVector.x * m_speed * elapsedTime * 0.1f;
+	m_pos.y = m_pos.y + m_dirVector.y * m_speed * elapsedTime * 0.1f;
 
 	//std::cout << m_pos.x << " " << m_pos.y << " " << m_speed << " " << m_dirVector.x << "  "  << m_dirVector.y << " " << std::endl;
 }
 
 void Actor::SetSpeed(float speed) {
 	m_speed = speed;
+}
+
+Pos2D Actor::GetPos() {
+	return m_pos;
+}
+
+float Actor::GetSize() {
+	return m_size;
 }
 
 void Actor::LimitMove() {

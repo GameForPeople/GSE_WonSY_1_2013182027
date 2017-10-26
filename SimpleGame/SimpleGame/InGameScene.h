@@ -3,7 +3,7 @@
 #include "stdafx.h"
 #include "Actor.h"
 
-#define MAX_OBJECTS_COUNT 50
+#define MAX_OBJECTS_COUNT 10
 
 class InGameScene :
 	public Scene
@@ -13,12 +13,16 @@ public:
 	virtual ~InGameScene();
 
 	virtual void Create();
-	virtual void Update();
+	virtual void Update(DWORD);
 	virtual void Draw();
 	virtual void KeyProc(unsigned char key, int specKey);
 	virtual void MouseProc(int button, int state, int x, int y);
 
 	virtual void AddObject(int x, int y);
+	virtual void Collision();
+
+	void LifeCheck();
+
 protected:
 	Renderer*				myRenderer;
 

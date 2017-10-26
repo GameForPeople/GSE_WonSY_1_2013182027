@@ -8,6 +8,8 @@
 #include <stdio.h>
 #include <tchar.h>
 #include <iostream>
+#include <ctime>
+#include <windows.h>
 #include <vector>
 
 #define CLIENT_WIDTH		500

@@ -6,7 +6,7 @@ public:
 	virtual ~Scene();
 
 	virtual void Create();
-	virtual void Update();
+	virtual void Update(DWORD elapsedTime);
 	virtual void Draw();
 	virtual void KeyProc(unsigned char key, int specKey);
 	virtual void MouseProc(int button, int state, int x, int y);
