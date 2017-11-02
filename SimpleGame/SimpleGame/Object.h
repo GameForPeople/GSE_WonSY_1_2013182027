@@ -12,49 +12,42 @@ struct Pos2D {
 	}
 };
 
-struct Vector4f {
-	float x;
-	float y;
-	float z;
-	float a;
-};
 
 class Object
 {
 protected:
-	Pos2D			m_pos;
-	Vector4f		m_color;
-	float			m_size;
+	OBJECT_TYPE			m_type;
+
+	Pos2D				m_pos;
+	float				m_size;
 	
-	int				m_life{ 0 };
-	int				m_lifeCount{};
+	int					m_life{ 0 };
+	int					m_lifeCount{0};
 
-	OBJECT_TYPE		m_type;
-
-	int				m_objectTime{ 0 };
+	int					m_objectTime{ 0 };
 
 public:
-	Object();
-	Object(OBJECT_TYPE m_type);
-	virtual ~Object();
+	Object(const OBJECT_TYPE m_type, const float posX, const float posY);
+
+	virtual void Update(); //= 0;
 	
-
-	void SetColor(Vector4f& inputColor);
-	void SetColor(float x, float y, float z, float alpha);
-
-	void SetPos(float x, float y);
-
-	virtual void Update();
-	void Draw(Renderer);
-
-	int GetLife() { return m_life; }
-	//void UpdateLifeCount() {
-	//	m_lifeCount++; 
-	//	if (m_lifeCount > 100) {
-	//		m_life--; m_lifeCount = 0;
-	//	}
-	//}
+public:
 	void Damaged();
-	void Damaged(int damage);
+	void Damaged(const int damage);
+	
+	void ObjectFunction(const DWORD elapsedTime);
+
+public:
+	Pos2D GetPos() const;
+	int GetObejctTime() const;
+	int GetLife() const;
+	float GetSize() const;
+
+	void SetPos(const float x, const float y);
+	void SetObjectTime(const int inputTime);
+
+public:
+	Object() = default;
+	virtual ~Object() = default;
 };
 

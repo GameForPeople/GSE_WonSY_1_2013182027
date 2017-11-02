@@ -13,9 +13,9 @@ public:
 	~Framework();
 
 	void Create();
-	virtual void Update(DWORD);
+	virtual void Update(const DWORD);
 	void Draw();
-	void KeyProc(unsigned char key, int specKey);
-	void MouseProc(int button, int state, int x, int y);
+	void KeyProc(const unsigned char key, const int specKey);
+	void MouseProc(const int button, const int state, const int x, const int y);
 };
 

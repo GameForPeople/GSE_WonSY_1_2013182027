@@ -2,37 +2,40 @@
 #include "Scene.h"
 #include "stdafx.h"
 #include "Actor.h"
+#include "Pawn.h"
 
 #define MAX_OBJECTS_COUNT 10
 
 class InGameScene :
 	public Scene
 {
-public:
-	InGameScene();
-	virtual ~InGameScene();
-
-	virtual void Create();
-	virtual void Update(DWORD);
-	virtual void Draw();
-	virtual void KeyProc(unsigned char key, int specKey);
-	virtual void MouseProc(int button, int state, int x, int y);
-
-	virtual void AddObject(int x, int y);
-	virtual void Collision();
-
-	virtual void BuildObject();
-
-	void LifeCheck();
-
 protected:
 	Renderer*				myRenderer;
 
 private:
-	std::vector<Actor>		m_actorArr;
-	int						m_sceneObjectNum = 0;
+	std::vector<Pawn>		m_pawnArr;
+
 	std::vector<Actor>		m_buildingArr;
 
-	std::vector<Actor>		m_bulletArr;
+	std::vector<Pawn>		m_bulletArr;
+
+public:
+	InGameScene();
+	virtual ~InGameScene();
+
+public:
+	virtual void Create();
+	virtual void Update(const DWORD time);
+	virtual void Draw();
+	virtual void KeyProc(const unsigned char key, const int specKey);
+	virtual void MouseProc(const int button, const int state, const int x, const int y);
+	
+public:
+	void BuildObject();
+
+public:
+	void AddBasePawn(const int x, const int y);
+	void Collision();
+	void RemoveZombie();	// object'life 0' is Zombie
 };
 
