@@ -21,6 +21,8 @@ public:
 	virtual void AddObject(int x, int y);
 	virtual void Collision();
 
+	virtual void BuildObject();
+
 	void LifeCheck();
 
 protected:
@@ -29,6 +31,8 @@ protected:
 private:
 	std::vector<Actor>		m_actorArr;
 	int						m_sceneObjectNum = 0;
+	std::vector<Actor>		m_buildingArr;
 
+	std::vector<Actor>		m_bulletArr;
 };
 

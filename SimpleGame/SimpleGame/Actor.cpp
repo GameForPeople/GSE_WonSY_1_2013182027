@@ -15,49 +15,49 @@ Actor::Actor()
 	m_speed = 0.1;
 
 	m_dirVector.CalCulNomalVector(0.5, 0.5);
-
-
 }
 
-Actor::Actor(Pos2D pos, float size, Vector4f color, float speed, Pos2D direction) {
+Actor::Actor(OBJECT_TYPE inputType, Pos2D pos, Pos2D direction) : Object(inputType) {
 	m_pos = pos;
-	m_size = size;
-	m_color = color;
-	m_speed = speed;
+
 	m_dirVector = direction;
 
+	if (inputType == OBJECT_TYPE::OBJECT_CHARACTER) {
+		m_speed = 300;
+	}
+	else if (inputType == OBJECT_TYPE::OBJECT_BUILDING) {
+		m_speed = 0;
+	}
+	else if (inputType == OBJECT_TYPE::OBJECT_BULLET) {
+		m_speed = 400;
+	}
+	else if (inputType == OBJECT_TYPE::OBJECT_ARROW) {
+		m_speed = 100;
+	}
 
 }
 
-Actor::Actor(float x, float y, float size, Vector4f color, float speed, float vectorX, float vectorY) {
+Actor::Actor(OBJECT_TYPE inputType, float x, float y, float vectorX, float vectorY) : Object(inputType) {
 	m_pos.x = x;
 	m_pos.y = y;
-	m_size = size;
-	m_color = color;
-	m_speed = speed;
+
+	if (inputType == OBJECT_TYPE::OBJECT_CHARACTER) {
+		m_speed = 300;
+	}
+	else if (inputType == OBJECT_TYPE::OBJECT_BUILDING) {
+		m_speed = 0;
+	}
+	else if (inputType == OBJECT_TYPE::OBJECT_BULLET) {
+		m_speed = 600;
+	}
+	else if (inputType == OBJECT_TYPE::OBJECT_ARROW) {
+		m_speed = 100;
+	}
 
 	m_dirVector.CalCulNomalVector(vectorX, vectorY);
-
-
 }
 
-Actor::Actor(float x, float y, float size, float colorR, float colorG, float colorB, float colorAlpha, float speed, float vectorX, float vectorY) {
-	m_pos.x = x;
-	m_pos.y = y;
-	m_size = size;
-	m_color.x = colorR;
-	m_color.y = colorG;
-	m_color.z = colorB;
-	m_color.a = colorAlpha;
-
-	m_speed = speed;
-
-	m_dirVector.CalCulNomalVector(vectorX, vectorY);
-
-
-}
-
-void Actor::SetActor(float x, float y, float size, float colorR, float colorG, float colorB, float colorAlpha, float speed, float vectorX, float vectorY) {
+void Actor::SetActor(float x, float y, float size, float colorR, float colorG, float colorB, float colorAlpha, float speed, float vectorX, float vectorY)  {
 	m_pos.x = x;
 	m_pos.y = y;
 	m_size = size;
@@ -93,21 +93,30 @@ void Actor::Move(Direction dir) {
 }
 
 void Actor::Update(DWORD elapsedTime) {
-	this->Move(elapsedTime);
-	this->LimitMove();
-	this->UpdateLifeCount();
+	Move(elapsedTime);
+	LimitMove();
+	ObjectFunction(elapsedTime);
+}
+void Actor::ObjectFunction(DWORD elapsedTime) {
+	m_objectTime += elapsedTime;
 }
 
 void Actor::Move(DWORD elapsedTime) {
-	m_pos.x = m_pos.x + m_dirVector.x * m_speed * elapsedTime * 0.1f;
-	m_pos.y = m_pos.y + m_dirVector.y * m_speed * elapsedTime * 0.1f;
-
+	m_pos.x = m_pos.x + m_dirVector.x * m_speed / 100 * elapsedTime * 0.1f;
+	m_pos.y = m_pos.y + m_dirVector.y * m_speed / 100 * elapsedTime * 0.1f;
 	//std::cout << m_pos.x << " " << m_pos.y << " " << m_speed << " " << m_dirVector.x << "  "  << m_dirVector.y << " " << std::endl;
 }
 
 void Actor::SetSpeed(float speed) {
 	m_speed = speed;
 }
+
+void Actor::Draw(Renderer g_Renderer) {
+	g_Renderer.DrawSolidRect(m_pos.x, m_pos.y, 0, m_size, m_color.x, m_color.y, m_color.z, m_color.a);
+
+
+}
+
 
 Pos2D Actor::GetPos() {
 	return m_pos;

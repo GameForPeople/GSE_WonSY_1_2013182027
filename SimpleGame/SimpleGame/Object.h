@@ -22,14 +22,20 @@ struct Vector4f {
 class Object
 {
 protected:
-	Pos2D m_pos;
-	Vector4f m_color;
-	float m_size;
+	Pos2D			m_pos;
+	Vector4f		m_color;
+	float			m_size;
 	
-	int m_life{ 20 };
-	int m_lifeCount{};
+	int				m_life{ 0 };
+	int				m_lifeCount{};
+
+	OBJECT_TYPE		m_type;
+
+	int				m_objectTime{ 0 };
+
 public:
 	Object();
+	Object(OBJECT_TYPE m_type);
 	virtual ~Object();
 	
 
@@ -42,12 +48,13 @@ public:
 	void Draw(Renderer);
 
 	int GetLife() { return m_life; }
-	void UpdateLifeCount() {
-		m_lifeCount++; if (m_lifeCount > 5000) {
-			m_life--; m_lifeCount = 0;
-		}
-	}
-	void Damaged() { //m_life--; 
-	}
+	//void UpdateLifeCount() {
+	//	m_lifeCount++; 
+	//	if (m_lifeCount > 100) {
+	//		m_life--; m_lifeCount = 0;
+	//	}
+	//}
+	void Damaged();
+	void Damaged(int damage);
 };
 

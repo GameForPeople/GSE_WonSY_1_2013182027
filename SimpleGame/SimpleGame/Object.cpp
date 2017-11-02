@@ -3,11 +3,37 @@
 
 Object::Object()
 {
-	m_pos.x = 0;
-	m_pos.y = 0;
 
-	m_size = 3;
-	m_color = { 1.0f, 1.0f, 1.0f, 1.0f };
+}
+
+Object::Object(OBJECT_TYPE inputType)
+{
+	m_type = inputType;
+	if (inputType == OBJECT_TYPE::OBJECT_CHARACTER) {
+		m_life = 10;
+		m_size = 10;
+		m_color = { 1.0f, 1.0f, 1.0f, 1.0f };
+	}	
+	else 
+		if (inputType == OBJECT_TYPE::OBJECT_BUILDING) {
+		m_life = 500;
+		m_size = 50;
+		m_color = { 1.0f, 1.0f, 0.0f, 1.0f };
+	}
+	else 	
+		if (inputType == OBJECT_TYPE::OBJECT_BULLET) {
+			m_life = 20;
+			m_size = 2;
+			m_color = { 1.0f, 0.0f, 0.0f, 1.0f };
+	}
+	else 	
+		if (inputType == OBJECT_TYPE::OBJECT_ARROW) {
+			m_life = 10;
+			m_size = 2;
+			m_color = { 0.0f, 1.0f, 0.0f, 1.0f };
+	}
+
+	m_objectTime = 0;
 }
 
 Object::~Object()
@@ -39,3 +65,13 @@ void Object::Update() {
 
 }
 
+void Object::Damaged() {
+	m_life--;
+}
+
+void Object::Damaged(int inputDamage) {
+	if (inputDamage == -1)
+		m_life = 0;
+	else 
+		m_life -= inputDamage;
+}

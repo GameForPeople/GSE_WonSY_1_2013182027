@@ -26,11 +26,11 @@ private:
 	Pos2D m_dirVector;
 	Direction m_direction;
 
+
 public:
 	Actor();
-	Actor(Pos2D pos, float size, Vector4f color, float speed, Pos2D direction);
-	Actor(float x, float y, float size, Vector4f color, float speed, float vectorX, float vectorY);	
-	Actor(float x, float y, float size, float colorR, float colorG, float colorB, float colorAlpha, float speed, float vectorX, float vectorY);
+	Actor(OBJECT_TYPE inputType, Pos2D pos, Pos2D direction);
+	Actor(OBJECT_TYPE inputType, float x, float y, float vectorX, float vectorY);
 	virtual ~Actor();
 	
 	virtual void SetActor(float x, float y, float size, float colorR, float colorG, float colorB, float colorAlpha, float speed, float vectorX, float vectorY);
@@ -39,6 +39,13 @@ public:
 	virtual void Move(Direction dir);
 	virtual void Move(DWORD elapsedTime);
 
+	virtual void Draw(Renderer);
+	virtual int GetObejctTime() {
+		return m_objectTime;
+	}
+	virtual void SetObjectTime(int inputTime) {
+		m_objectTime = inputTime;
+	}
 	virtual void LimitMove();
 
 	Pos2D GetPos();
@@ -46,5 +53,6 @@ public:
 
 
 	void SetSpeed(float);
+	void ObjectFunction(DWORD elapsedTime);
 };
 
