@@ -51,6 +51,25 @@ Pawn::Pawn(OBJECT_TYPE inputType, float x, float y, float vectorX, float vectorY
 	m_dirVector.CalCulNomalVector(vectorX, vectorY);
 }
 
+Pawn::Pawn(OBJECT_TYPE inputType, float x, float y, float vectorX, float vectorY, int inputOwner) : Actor(inputType, x, y) {
+
+	if (inputType == OBJECT_TYPE::OBJECT_CHARACTER) {
+		m_speed = CHARACTER_BASE_SPEED;
+	}
+	else if (inputType == OBJECT_TYPE::OBJECT_BUILDING) {
+		m_speed = BUILDING_BASE_SPEED;
+	}
+	else if (inputType == OBJECT_TYPE::OBJECT_BULLET) {
+		m_speed = BULLET_BASE_SPEED;
+	}
+	else if (inputType == OBJECT_TYPE::OBJECT_ARROW) {
+		m_speed = ARROW_BASE_SPEED;
+	}
+
+	m_dirVector.CalCulNomalVector(vectorX, vectorY);
+	m_owner = inputOwner;
+}
+
 void Pawn::Update(const DWORD elapsedTime) {
 	Move(elapsedTime);
 	LimitMove();
@@ -111,6 +130,10 @@ void Pawn::ObjectFunction(const DWORD elapsedTime) {
 	m_objectTime += elapsedTime;
 }
 
+
+int Pawn::GetOwner() const {
+	return m_owner;
+}
 
 void Pawn::SetSpeed(const float speed) {
 	m_speed = speed;

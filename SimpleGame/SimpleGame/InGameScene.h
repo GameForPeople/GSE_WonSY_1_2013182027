@@ -14,10 +14,14 @@ protected:
 
 private:
 	std::vector<Pawn>		m_pawnArr;
+	int						m_ownerArrow;
 
 	std::vector<Actor>		m_buildingArr;
+	GLuint					m_TextureBuilding;
 
 	std::vector<Pawn>		m_bulletArr;
+
+	std::vector<Pawn>		m_arrowArr;
 
 public:
 	InGameScene();

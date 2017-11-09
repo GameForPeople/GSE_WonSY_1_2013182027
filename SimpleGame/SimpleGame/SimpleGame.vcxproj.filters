@@ -60,6 +60,9 @@
     <ClInclude Include="InGameScene.h">
       <Filter>Scene</Filter>
     </ClInclude>
+    <ClInclude Include="LoadPng.h">
+      <Filter>소스 파일\Shaders</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="SimpleGame.cpp">
@@ -88,6 +91,9 @@
     </ClCompile>
     <ClCompile Include="InGameScene.cpp">
       <Filter>Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="LoadPng.cpp">
+      <Filter>소스 파일\Shaders</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

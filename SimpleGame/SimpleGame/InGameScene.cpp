@@ -23,22 +23,27 @@ void InGameScene::Create() {
 
 void InGameScene::BuildObject() {
 	m_buildingArr.emplace_back(OBJECT_TYPE::OBJECT_BUILDING, 0, 0, 0, 0);
-}
+	m_TextureBuilding = myRenderer->CreatePngTexture("./Resources/Textures/Building_1.png");
 
+	m_ownerArrow = 0;
+}
 
 
 void InGameScene::Update(const DWORD elapsedTime) {
 
 	for (int i = 0; i < m_pawnArr.size(); i++) {
 		m_pawnArr[i].Update(elapsedTime);
+		m_pawnArr[i].ObjectFunction(elapsedTime);
 	}
-
-	//for (auto i : m_pawnArr)
-	//	i.Update(elapsedTime);
 	
 	for (int i = 0; i < m_bulletArr.size(); i++) {
 		m_bulletArr[i].Move(elapsedTime);
 		m_bulletArr[i].LimitMove();
+	}
+
+	for (int i = 0; i < m_arrowArr.size(); i++) {
+		m_arrowArr[i].Move(elapsedTime);
+		m_arrowArr[i].LimitMove();
 	}
 	
 	for (int i = 0; i < m_buildingArr.size(); i++) {
@@ -51,6 +56,13 @@ void InGameScene::Update(const DWORD elapsedTime) {
 			m_buildingArr[0].SetObjectTime(0);
 		}
 
+	if (m_pawnArr.size())
+		for(int i = 0; i < m_pawnArr.size(); i++)
+		if (m_pawnArr[i].GetObejctTime() >= BULLET_RESPAWN_TIME) {
+			m_arrowArr.emplace_back(OBJECT_TYPE::OBJECT_ARROW, m_pawnArr[i].GetPos().x, m_pawnArr[i].GetPos().y, rand() % 100, rand() % 100, m_pawnArr[i].GetOwner());
+			m_pawnArr[i].SetObjectTime(0);
+		}
+
 	Collision();
 	RemoveZombie();
 }
@@ -60,13 +72,30 @@ void InGameScene::Draw() {
 		i.Draw(*myRenderer);
 	}
 
-	for (auto i : m_buildingArr) {
-		i.Draw(*myRenderer);
-	}
+	//for (auto i : m_buildingArr) {
+	//	i.Draw(*myRenderer);
+	//}
+	if(m_buildingArr.size())
+	myRenderer->DrawTexturedRect(
+		m_buildingArr[0].GetPos().x,
+		m_buildingArr[0].GetPos().y,
+		0, 
+		m_buildingArr[0].GetSize(),
+		1, 
+		1, 
+		1, 
+		1, 
+		m_TextureBuilding);
+
 
 	for (auto i : m_bulletArr) {
 		i.Draw(*myRenderer);
 	}
+
+	for (auto i : m_arrowArr) {
+		i.Draw(*myRenderer);
+	}
+
 }
 
 
@@ -86,7 +115,8 @@ void InGameScene::MouseProc(const int button, const int state, const int x, cons
 
 void InGameScene::AddBasePawn(const int x, const int y){
 	if (m_pawnArr.size() < MAX_OBJECTS_COUNT) {
-		m_pawnArr.emplace_back(OBJECT_TYPE::OBJECT_CHARACTER, (float)x, (float)y, ((float)(rand() % 200) - 100) / 100 , ((float)(rand() % 200) -100) / 100);
+		m_ownerArrow++;
+		m_pawnArr.emplace_back(OBJECT_TYPE::OBJECT_CHARACTER, (float)x, (float)y, ((float)(rand() % 200) - 100) / 100 , ((float)(rand() % 200) -100) / 100, m_ownerArrow);
 	}
 }
 
@@ -112,6 +142,13 @@ void InGameScene::RemoveZombie() {
 				m_bulletArr.erase(m_bulletArr.begin() + i);
 			}
 		}
+
+		if (m_arrowArr.size())
+			for (int i = 0; i < m_arrowArr.size(); i++) {
+				if (m_arrowArr[i].GetLife() <= 0) {
+					m_arrowArr.erase(m_arrowArr.begin() + i);
+				}
+			}
 	}
 
 void InGameScene::Collision() {
@@ -201,7 +238,49 @@ void InGameScene::Collision() {
 	}
 #pragma endregion
 
-#pragma region [Playe X Building]
+#pragma region [Player X Arrow]
+	if (m_pawnArr.size() && m_arrowArr.size()) {
+		for (int i = 0; i < m_pawnArr.size() - 1; i++) {
+			nowX = m_pawnArr[i].GetPos().x;
+			nowY = m_pawnArr[i].GetPos().y;
+			nowSize = m_pawnArr[i].GetSize() / 2;
+
+			for (int j = 0; j < m_arrowArr.size(); j++) {
+				newX = m_arrowArr[j].GetPos().x;
+				newY = m_arrowArr[j].GetPos().y;
+				newSize = m_arrowArr[j].GetSize() / 2;
+
+				if (m_arrowArr[j].GetOwner() != m_pawnArr[i].GetOwner()) {
+				
+				if (nowX - nowSize > newX + newSize) {
+					isColide = false;
+				}
+				else if (nowX + nowSize < newX - newSize) {
+					isColide = false;
+				}
+				else if (nowY - nowSize > newY + newSize) {
+					isColide = false;
+				}
+				else if (nowY + nowSize < newY - newSize) {
+					isColide = false;
+				}
+				else {
+					isColide = true;
+					m_pawnArr[i].Damaged(m_arrowArr[j].GetLife());
+					m_arrowArr[j].Damaged(-1);
+					break;
+				}
+				}
+			}
+
+				if (isColide) {
+					m_pawnArr[i].SetColor(1.0f, 0.0f, 1.0f, 1);
+				}
+		}
+	}
+#pragma endregion
+
+#pragma region [Player X Building]
 	if (m_pawnArr.size() && m_pawnArr.size()) {
 		for (int j = 0; j < m_buildingArr.size(); j++) {
 			m_buildingArr[j].SetColor(1.0f, 1.0f, 0, 1.0f);
@@ -241,5 +320,45 @@ void InGameScene::Collision() {
 	}
 #pragma endregion
 
+#pragma region [Arrow X Building]
+	if (m_arrowArr.size() && m_arrowArr.size()) {
+		for (int j = 0; j < m_buildingArr.size(); j++) {
+			m_buildingArr[j].SetColor(1.0f, 1.0f, 0, 1.0f);
+		}
 
+		for (int i = 0; i <m_arrowArr.size(); i++) {
+			nowX = m_arrowArr[i].GetPos().x;
+			nowY = m_arrowArr[i].GetPos().y;
+			nowSize = m_arrowArr[i].GetSize() / 2;
+
+			for (int j = 0; j < m_buildingArr.size(); j++) {
+				newX = m_buildingArr[j].GetPos().x;
+				newY = m_buildingArr[j].GetPos().y;
+				newSize = m_buildingArr[j].GetSize() / 2;
+
+				if (nowX - nowSize > newX + newSize) {
+					isColide = false;
+				}
+				else if (nowX + nowSize < newX - newSize) {
+					isColide = false;
+				}
+				else if (nowY - nowSize > newY + newSize) {
+					isColide = false;
+				}
+				else if (nowY + nowSize < newY - newSize) {
+					isColide = false;
+				}
+				else {
+					isColide = true;
+					m_buildingArr[j].SetColor(1.0f, 0.0f, 0.0f, 1);
+					m_buildingArr[j].Damaged(m_arrowArr[i].GetLife());
+					m_arrowArr[i].Damaged(-1);
+
+					std::cout << m_buildingArr[j].GetLife() << std::endl;
+					break;
+				}
+			}
+		}
+	}
+#pragma endregion
 }

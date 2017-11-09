@@ -23,12 +23,15 @@ private:
 	Pos2D			m_dirVector;
 	Direction		m_direction;
 
+	int				m_owner;
+
 public:
 	Pawn();
 	~Pawn();
 
 	Pawn(const OBJECT_TYPE inputType, const float x, const float y);
 	Pawn(const OBJECT_TYPE inputType, const float x, const float y, const float vectorX, const float vectorY);
+	Pawn(const OBJECT_TYPE inputType, const float x, const float y, const float vectorX, const float vectorY, const int m_owner);
 
 public:
 	virtual void Update(const DWORD elapsedTime);
@@ -43,6 +46,7 @@ public:
 
 public:
 	void SetSpeed(const float);
+	int GetOwner() const;
 
 };
 
