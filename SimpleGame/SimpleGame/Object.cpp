@@ -1,12 +1,13 @@
 #include "stdafx.h"
 #include "Object.h"
 
-Object::Object(OBJECT_TYPE inputType, float posX, float posY)
+Object::Object(OBJECT_TYPE inputType, TEAM_TYPE team, float posX, float posY)
 {
 	m_pos.x = posX;
 	m_pos.y = posY;
 
 	m_type = inputType;
+	m_team = team;
 
 	if (inputType == OBJECT_TYPE::OBJECT_CHARACTER) {
 			m_life = CHARACTER_BASE_LIFE;
@@ -56,6 +57,10 @@ Pos2D Object::GetPos() const{
 	return m_pos;
 }
 
+TEAM_TYPE Object::GetTeam() const {
+	return m_team;
+}
+
 int Object::GetObejctTime() const {
 	return m_objectTime;
 }
@@ -67,6 +72,7 @@ int Object::GetLife() const {
 float Object::GetSize() const {
 	return m_size;
 }
+
 
 
 void Object::SetPos(const float x, const float y) {

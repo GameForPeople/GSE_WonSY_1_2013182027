@@ -17,6 +17,7 @@ class Object
 {
 protected:
 	OBJECT_TYPE			m_type;
+	TEAM_TYPE			m_team;
 
 	Pos2D				m_pos;
 	float				m_size;
@@ -27,7 +28,7 @@ protected:
 	int					m_objectTime{ 0 };
 
 public:
-	Object(const OBJECT_TYPE m_type, const float posX, const float posY);
+	Object(const OBJECT_TYPE type, const TEAM_TYPE team, const float posX, const float posY);
 
 	virtual void Update(); //= 0;
 	
@@ -39,6 +40,7 @@ public:
 
 public:
 	Pos2D GetPos() const;
+	TEAM_TYPE GetTeam() const;
 	int GetObejctTime() const;
 	int GetLife() const;
 	float GetSize() const;

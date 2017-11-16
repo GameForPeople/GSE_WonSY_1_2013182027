@@ -4,7 +4,7 @@
 #include "Actor.h"
 #include "Pawn.h"
 
-#define MAX_OBJECTS_COUNT 10
+#define MAX_OBJECTS_COUNT 100
 
 class InGameScene :
 	public Scene
@@ -17,11 +17,15 @@ private:
 	int						m_ownerArrow;
 
 	std::vector<Actor>		m_buildingArr;
-	GLuint					m_TextureBuilding;
+	GLuint					m_buildingTextureArr[2];
 
 	std::vector<Pawn>		m_bulletArr;
 
 	std::vector<Pawn>		m_arrowArr;
+
+private:
+	int						m_redAutoTime{ 0 };
+	int						m_blueTime{ 0 };
 
 public:
 	InGameScene();
@@ -38,6 +42,7 @@ public:
 	void BuildObject();
 
 public:
+	void AddRedPawn();
 	void AddBasePawn(const int x, const int y);
 	void Collision();
 	void RemoveZombie();	// object'life 0' is Zombie

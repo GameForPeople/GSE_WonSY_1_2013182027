@@ -6,8 +6,39 @@ Actor::~Actor()
 	Object::~Object();
 }
 
-Actor::Actor(const OBJECT_TYPE inputType, const float x, const float y) : Object(inputType, x, y) {
+Actor::Actor(const OBJECT_TYPE inputType, const TEAM_TYPE team, const float x, const float y) : Object(inputType, team, x, y) {
 
+	if (team == TEAM_TYPE::RED_TEAM) {
+		if (inputType == OBJECT_TYPE::OBJECT_CHARACTER) {
+			m_color = CHARACTER_RED_CLOLR;
+		}
+		else if (inputType == OBJECT_TYPE::OBJECT_BUILDING) {
+			m_color = BUILDING_BASE_CLOLR;
+		}
+		else if (inputType == OBJECT_TYPE::OBJECT_BULLET) {
+			m_color = BULLET_RED_CLOLR;
+		}
+		else if (inputType == OBJECT_TYPE::OBJECT_ARROW) {
+			m_color = ARROW_RED_CLOLR;
+		}
+	}
+	else if (team == TEAM_TYPE::BLUE_TEAM) {
+			if (inputType == OBJECT_TYPE::OBJECT_CHARACTER) {
+				m_color = CHARACTER_BLUE_CLOLR;
+			}
+			else if (inputType == OBJECT_TYPE::OBJECT_BUILDING) {
+				m_color = BUILDING_BASE_CLOLR;
+			}
+			else if (inputType == OBJECT_TYPE::OBJECT_BULLET) {
+				m_color = BULLET_BLUE_CLOLR;
+			}
+			else if (inputType == OBJECT_TYPE::OBJECT_ARROW) {
+				m_color = ARROW_BLUE_CLOLR;
+			}
+		}
+}
+
+Actor::Actor(OBJECT_TYPE inputType, TEAM_TYPE team,  Pos2D pos, Pos2D direction) : Object(inputType, team, pos.x, pos.y) {
 	if (inputType == OBJECT_TYPE::OBJECT_CHARACTER) {
 		m_color = CHARACTER_BASE_CLOLR;
 	}
@@ -22,22 +53,7 @@ Actor::Actor(const OBJECT_TYPE inputType, const float x, const float y) : Object
 	}
 }
 
-Actor::Actor(OBJECT_TYPE inputType, Pos2D pos, Pos2D direction) : Object(inputType, pos.x, pos.y) {
-	if (inputType == OBJECT_TYPE::OBJECT_CHARACTER) {
-		m_color = CHARACTER_BASE_CLOLR;
-	}
-	else if (inputType == OBJECT_TYPE::OBJECT_BUILDING) {
-		m_color = BUILDING_BASE_CLOLR;
-	}
-	else if (inputType == OBJECT_TYPE::OBJECT_BULLET) {
-		m_color = BULLET_BASE_CLOLR;
-	}
-	else if (inputType == OBJECT_TYPE::OBJECT_ARROW) {
-		m_color = ARROW_BASE_CLOLR;
-	}
-}
-
-Actor::Actor(OBJECT_TYPE inputType, float x, float y, float vectorX, float vectorY) : Object(inputType, x, y) {
+Actor::Actor(OBJECT_TYPE inputType, TEAM_TYPE team,  float x, float y, float vectorX, float vectorY) : Object(inputType, team, x, y) {
 	if (inputType == OBJECT_TYPE::OBJECT_CHARACTER) {
 		m_color = CHARACTER_BASE_CLOLR;
 	}

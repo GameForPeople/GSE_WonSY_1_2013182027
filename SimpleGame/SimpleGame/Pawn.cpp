@@ -12,7 +12,7 @@ Pawn::~Pawn()
 	Actor::~Actor();
 }
 
-Pawn::Pawn(const OBJECT_TYPE inputType, const float x, const float y) : Actor (inputType, x, y) {
+Pawn::Pawn(const OBJECT_TYPE inputType, const TEAM_TYPE team, const float x, const float y) : Actor (inputType, team, x, y) {
 
 	if (inputType == OBJECT_TYPE::OBJECT_CHARACTER) {
 		m_speed = CHARACTER_BASE_SPEED;
@@ -33,7 +33,7 @@ Pawn::Pawn(const OBJECT_TYPE inputType, const float x, const float y) : Actor (i
 	m_dirVector.CalCulNomalVector(vectorX, vectorY);
 }
 
-Pawn::Pawn(OBJECT_TYPE inputType, float x, float y, float vectorX, float vectorY) : Actor(inputType, x, y) {
+Pawn::Pawn(OBJECT_TYPE inputType, const TEAM_TYPE team, float x, float y, float vectorX, float vectorY) : Actor(inputType, team, x, y) {
 
 	if (inputType == OBJECT_TYPE::OBJECT_CHARACTER) {
 		m_speed = CHARACTER_BASE_SPEED;
@@ -51,7 +51,7 @@ Pawn::Pawn(OBJECT_TYPE inputType, float x, float y, float vectorX, float vectorY
 	m_dirVector.CalCulNomalVector(vectorX, vectorY);
 }
 
-Pawn::Pawn(OBJECT_TYPE inputType, float x, float y, float vectorX, float vectorY, int inputOwner) : Actor(inputType, x, y) {
+Pawn::Pawn(OBJECT_TYPE inputType, const TEAM_TYPE team, float x, float y, float vectorX, float vectorY, int inputOwner) : Actor(inputType, team, x, y) {
 
 	if (inputType == OBJECT_TYPE::OBJECT_CHARACTER) {
 		m_speed = CHARACTER_BASE_SPEED;
@@ -103,25 +103,26 @@ void Pawn::Move(const DWORD elapsedTime) {
 }
 
 void Pawn::LimitMove() {
-	if (m_pos.x < -250 || m_pos.x > 250) {
+
+	if (m_pos.x < -CLIENT_WIDTH / 2 || m_pos.x >	CLIENT_WIDTH / 2) {
 		m_dirVector.x *= -1;
 
-		if (m_pos.x < -250) {
-			m_pos.x = -250;
+		if (m_pos.x < - CLIENT_WIDTH / 2) {
+			m_pos.x = - CLIENT_WIDTH / 2;
 		}
-		else if (m_pos.x > 250) {
-			m_pos.x = 250;
+		else if (m_pos.x >	CLIENT_WIDTH / 2) {
+			m_pos.x = CLIENT_WIDTH / 2;
 		}
 	}
 
-	if (m_pos.y < -250 || m_pos.y > 250) {
+	if (m_pos.y < -CLIENT_HEIGHT / 2 || m_pos.y > 	CLIENT_HEIGHT / 2) {
 		m_dirVector.y *= -1;
 
-		if (m_pos.y < -250) {
-			m_pos.y = -250;
+		if (m_pos.y < -CLIENT_HEIGHT / 2) {
+			m_pos.y = -CLIENT_HEIGHT / 2;
 		}
-		else if (m_pos.y > 250) {
-			m_pos.y = 250;
+		else if (m_pos.y > 	CLIENT_HEIGHT / 2) {
+			m_pos.y = CLIENT_HEIGHT / 2;
 		}
 	}
 }

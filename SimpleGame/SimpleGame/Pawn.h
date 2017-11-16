@@ -29,9 +29,9 @@ public:
 	Pawn();
 	~Pawn();
 
-	Pawn(const OBJECT_TYPE inputType, const float x, const float y);
-	Pawn(const OBJECT_TYPE inputType, const float x, const float y, const float vectorX, const float vectorY);
-	Pawn(const OBJECT_TYPE inputType, const float x, const float y, const float vectorX, const float vectorY, const int m_owner);
+	Pawn(const OBJECT_TYPE inputType, const TEAM_TYPE team, const float x, const float y);
+	Pawn(const OBJECT_TYPE inputType, const TEAM_TYPE team, const float x, const float y, const float vectorX, const float vectorY);
+	Pawn(const OBJECT_TYPE inputType, const TEAM_TYPE team, const float x, const float y, const float vectorX, const float vectorY, const int m_owner);
 
 public:
 	virtual void Update(const DWORD elapsedTime);

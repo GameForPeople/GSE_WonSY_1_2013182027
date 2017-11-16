@@ -17,9 +17,9 @@ protected:
 
 public:
 	Actor() = default;
-	Actor(const OBJECT_TYPE inputType, const float x, const float y);
-	Actor(const OBJECT_TYPE inputType, const Pos2D pos, const Pos2D direction);
-	Actor(const OBJECT_TYPE inputType, const float x, const float y, const float vectorX, const float vectorY);
+	Actor(const OBJECT_TYPE inputType, const TEAM_TYPE team, const float x, const float y);
+	Actor(const OBJECT_TYPE inputType, const TEAM_TYPE team, const Pos2D pos, const Pos2D direction);
+	Actor(const OBJECT_TYPE inputType, const TEAM_TYPE team, const float x, const float y, const float vectorX, const float vectorY);
 	virtual ~Actor();
 	
 public:
