@@ -77,9 +77,29 @@ void Pawn::Update(const DWORD elapsedTime) {
 }
 
 void Pawn::Draw(Renderer g_Renderer) {
-	g_Renderer.DrawSolidRect(m_pos.x, m_pos.y, 0, m_size, m_color.x, m_color.y, m_color.z, m_color.a);
+	if(m_type == OBJECT_TYPE::OBJECT_BUILDING)
+		g_Renderer.DrawSolidRect(m_pos.x, m_pos.y, 0, m_size, m_color.x, m_color.y, m_color.z, m_color.a, DRAW_LEVEL_BUILDING);
+	else if (m_type == OBJECT_TYPE::OBJECT_CHARACTER)
+		g_Renderer.DrawSolidRect(m_pos.x, m_pos.y, 0, m_size, m_color.x, m_color.y, m_color.z, m_color.a, DRAW_LEVEL_CHARACTER);
+	else if (m_type == OBJECT_TYPE::OBJECT_ARROW)
+		g_Renderer.DrawSolidRect(m_pos.x, m_pos.y, 0, m_size, m_color.x, m_color.y, m_color.z, m_color.a, DRAW_LEVEL_ARROW);
+	else if (m_type == OBJECT_TYPE::OBJECT_BULLET)
+		g_Renderer.DrawSolidRect(m_pos.x, m_pos.y, 0, m_size, m_color.x, m_color.y, m_color.z, m_color.a, DRAW_LEVEL_BULLET);
+
+	DrawLife(g_Renderer);
 }
 
+void Pawn::DrawLife(Renderer g_Renderer) {
+
+	if (m_type == OBJECT_TYPE::OBJECT_BUILDING)
+		g_Renderer.DrawSolidRectGauge(m_pos.x, m_pos.y + m_size, 0, m_size, 3, m_color.x, m_color.y, m_color.z, m_color.a, (float)m_life / (float)BUILDING_BASE_LIFE, DRAW_LEVEL_BUILDING);
+	else if (m_type == OBJECT_TYPE::OBJECT_CHARACTER)								 
+		g_Renderer.DrawSolidRectGauge(m_pos.x , m_pos.y + m_size, 0, m_size, 3, m_color.x, m_color.y, m_color.z, m_color.a, (float)m_life / (float)CHARACTER_BASE_LIFE, DRAW_LEVEL_CHARACTER);
+	//else if (m_type == OBJECT_TYPE::OBJECT_ARROW)									 
+	//	g_Renderer.DrawSolidRectGauge(m_pos.x , m_pos.y + m_size, 0, m_size, 3, m_color.x, m_color.y, m_color.z, m_color.a, (float)m_life / (float)ARROW_BASE_LIFE, DRAW_LEVEL_LIFE);
+	//else if (m_type == OBJECT_TYPE::OBJECT_BULLET)									 
+	//	g_Renderer.DrawSolidRectGauge(m_pos.x , m_pos.y + m_size, 0, m_size, 3, m_color.x, m_color.y, m_color.z, m_color.a, (float)m_life / (float)BULLET_BASE_LIFE, DRAW_LEVEL_LIFE);
+}
 
 void Pawn::Move(const Direction dir) {
 	if (dir == Direction::Up) {
@@ -107,8 +127,8 @@ void Pawn::LimitMove() {
 	if (m_pos.x < -CLIENT_WIDTH / 2 || m_pos.x >	CLIENT_WIDTH / 2) {
 		m_dirVector.x *= -1;
 
-		if (m_pos.x < - CLIENT_WIDTH / 2) {
-			m_pos.x = - CLIENT_WIDTH / 2;
+		if (m_pos.x < -CLIENT_WIDTH / 2) {
+			m_pos.x = -CLIENT_WIDTH / 2;
 		}
 		else if (m_pos.x >	CLIENT_WIDTH / 2) {
 			m_pos.x = CLIENT_WIDTH / 2;
@@ -124,6 +144,17 @@ void Pawn::LimitMove() {
 		else if (m_pos.y > 	CLIENT_HEIGHT / 2) {
 			m_pos.y = CLIENT_HEIGHT / 2;
 		}
+	}
+}
+
+void Pawn::OutMoveDeath() {
+
+	if (m_pos.x < -CLIENT_WIDTH / 2 || m_pos.x >	CLIENT_WIDTH / 2) {
+		m_life = 0;
+	}
+
+	if (m_pos.y < -CLIENT_HEIGHT / 2 || m_pos.y > 	CLIENT_HEIGHT / 2) {
+		m_life = 0;
 	}
 }
 

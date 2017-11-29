@@ -27,6 +27,8 @@ public:
 	virtual void Update(const DWORD elapsedTime);
 	virtual void Draw(Renderer);
 
+	virtual void DrawLife(Renderer);
+
 public:
 	virtual void ObjectFunction(const DWORD elapsedTime);
 

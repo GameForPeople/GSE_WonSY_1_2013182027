@@ -7,6 +7,11 @@ InGameScene::InGameScene()
 	myRenderer->IsInitialized();
 
 	BuildObject();
+
+	std::cout << std::endl << std::endl;
+	std::cout << "--------------------------------------------------------------------" << std::endl;
+	std::cout << "  게임 소프트 웨어 공학 프로젝트 SimpleGame   :  2013182027 원성연" << std::endl;
+	std::cout << "빠른 실습 검사를 위해 오브젝트 리스폰 타임을 많이 감소시켰습니다." << std::endl;
 }
 
 InGameScene::~InGameScene()
@@ -49,12 +54,12 @@ void InGameScene::Update(const DWORD elapsedTime) {
 	
 	for (int i = 0; i < m_bulletArr.size(); i++) {
 		m_bulletArr[i].Move(elapsedTime);
-		m_bulletArr[i].LimitMove();
+		m_bulletArr[i].OutMoveDeath();
 	}
 
 	for (int i = 0; i < m_arrowArr.size(); i++) {
 		m_arrowArr[i].Move(elapsedTime);
-		m_arrowArr[i].LimitMove();
+		m_arrowArr[i].OutMoveDeath();
 	}
 	
 	for (int i = 0; i < m_buildingArr.size(); i++) {
@@ -63,19 +68,20 @@ void InGameScene::Update(const DWORD elapsedTime) {
 
 	for (int i = 0; i < m_buildingArr.size(); i++)
 		if (m_buildingArr[i].GetObejctTime() >= BULLET_RESPAWN_TIME) {
-			m_bulletArr.emplace_back(OBJECT_TYPE::OBJECT_BULLET, m_buildingArr[i].GetTeam() ,m_buildingArr[i].GetPos().x, m_buildingArr[i].GetPos().y, rand() % 100, rand() % 100);
+			m_bulletArr.emplace_back(OBJECT_TYPE::OBJECT_BULLET, m_buildingArr[i].GetTeam() ,m_buildingArr[i].GetPos().x, m_buildingArr[i].GetPos().y, rand() % 100 - 50, rand() % 100 - 50);
 			m_buildingArr[i].SetObjectTime(0);
 		}
 
 	if (m_pawnArr.size())
 		for(int i = 0; i < m_pawnArr.size(); i++)
 		if (m_pawnArr[i].GetObejctTime() >= BULLET_RESPAWN_TIME) {
-			m_arrowArr.emplace_back(OBJECT_TYPE::OBJECT_ARROW, m_pawnArr[i].GetTeam(), m_pawnArr[i].GetPos().x, m_pawnArr[i].GetPos().y, rand() % 100, rand() % 100, m_pawnArr[i].GetOwner());
+			m_arrowArr.emplace_back(OBJECT_TYPE::OBJECT_ARROW, m_pawnArr[i].GetTeam(), m_pawnArr[i].GetPos().x, m_pawnArr[i].GetPos().y, rand() % 100 - 50, rand() % 100 - 50, m_pawnArr[i].GetOwner());
 			m_pawnArr[i].SetObjectTime(0);
 		}
 
 	Collision();
 	RemoveZombie();
+	
 	AddRedPawn();
 
 	m_redAutoTime++;
@@ -115,7 +121,8 @@ void InGameScene::Draw() {
 				1, 
 				1, 
 				1, 
-				m_buildingTextureArr[1]
+				m_buildingTextureArr[1],
+				DRAW_LEVEL_BUILDING
 			);
 		else if (i.GetTeam() == TEAM_TYPE::BLUE_TEAM)
 			myRenderer->DrawTexturedRect(
@@ -127,8 +134,11 @@ void InGameScene::Draw() {
 				1,
 				1,
 				1,
-				m_buildingTextureArr[0]
+				m_buildingTextureArr[0],
+				DRAW_LEVEL_BUILDING
 			);
+
+		i.DrawLife(*myRenderer);
 	}
 
 
@@ -368,43 +378,43 @@ void InGameScene::Collision() {
 #pragma endregion
 
 #pragma region [TEAM::Player X Player]
-	if (m_pawnArr.size()) {
-
-		for (int i = 0; i < m_pawnArr.size() - 1; i++) {
-			nowX = m_pawnArr[i].GetPos().x;
-			nowY = m_pawnArr[i].GetPos().y;
-			nowSize = m_pawnArr[i].GetSize() / 2;
-
-			for (int j = i + 1; j < m_pawnArr.size(); j++) {
-				if (m_pawnArr[i].GetTeam() != m_pawnArr[j].GetTeam()) {
-					newX = m_pawnArr[j].GetPos().x;
-					newY = m_pawnArr[j].GetPos().y;
-					newSize = m_pawnArr[j].GetSize() / 2;
-
-					if (nowX - nowSize > newX + newSize) {
-						isColide = false;
-					}
-					else if (nowX + nowSize < newX - newSize) {
-						isColide = false;
-					}
-					else if (nowY - nowSize > newY + newSize) {
-						isColide = false;
-					}
-					else if (nowY + nowSize < newY - newSize) {
-						isColide = false;
-					}
-					else {
-						isColide = true;
-						int lifeBuf = m_pawnArr[j].GetLife();
-						m_pawnArr[j].Damaged(m_pawnArr[i].GetLife());
-						m_pawnArr[i].Damaged(lifeBuf);
-						break;
-					}
-				}
-
-			}
-		}
-	}
+	//if (m_pawnArr.size()) {
+	//
+	//	for (int i = 0; i < m_pawnArr.size() - 1; i++) {
+	//		nowX = m_pawnArr[i].GetPos().x;
+	//		nowY = m_pawnArr[i].GetPos().y;
+	//		nowSize = m_pawnArr[i].GetSize() / 2;
+	//
+	//		for (int j = i + 1; j < m_pawnArr.size(); j++) {
+	//			if (m_pawnArr[i].GetTeam() != m_pawnArr[j].GetTeam()) {
+	//				newX = m_pawnArr[j].GetPos().x;
+	//				newY = m_pawnArr[j].GetPos().y;
+	//				newSize = m_pawnArr[j].GetSize() / 2;
+	//
+	//				if (nowX - nowSize > newX + newSize) {
+	//					isColide = false;
+	//				}
+	//				else if (nowX + nowSize < newX - newSize) {
+	//					isColide = false;
+	//				}
+	//				else if (nowY - nowSize > newY + newSize) {
+	//					isColide = false;
+	//				}
+	//				else if (nowY + nowSize < newY - newSize) {
+	//					isColide = false;
+	//				}
+	//				else {
+	//					isColide = true;
+	//					int lifeBuf = m_pawnArr[j].GetLife();
+	//					m_pawnArr[j].Damaged(m_pawnArr[i].GetLife());
+	//					m_pawnArr[i].Damaged(lifeBuf);
+	//					break;
+	//				}
+	//			}
+	//
+	//		}
+	//	}
+	//}
 #pragma endregion
 
 #pragma region [TEAM::Building X Arrow]
