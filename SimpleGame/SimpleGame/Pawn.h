@@ -25,6 +25,10 @@ private:
 
 	int				m_owner;
 
+	int				m_animCount{};
+	int				m_animTimer{};
+	int				m_animDirection{};
+
 public:
 	Pawn();
 	~Pawn();
@@ -47,8 +51,13 @@ public:
 	virtual void ObjectFunction(const DWORD elapsedTime);
 
 public:
+	void Animation();
+
+public:
 	void SetSpeed(const float);
 	int GetOwner() const;
-
+	int GetAnimCount() const { return m_animCount; }
+	int GetAnimDirection() const { return m_animDirection; }
+	Pos2D GetDirVector() const { return m_dirVector; }
 };
 

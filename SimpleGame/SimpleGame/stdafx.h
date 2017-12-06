@@ -62,6 +62,8 @@
 #define DRAW_LEVEL_CHARACTER		0.2f
 #define DRAW_LEVEL_BULLET			0.3f
 #define DRAW_LEVEL_ARROW			0.3f
+#define DRAW_LEVEL_BACK				0.99f
+
 
 enum class OBJECT_TYPE {
 		OBJECT_BUILDING

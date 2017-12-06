@@ -23,10 +23,17 @@ private:
 
 	std::vector<Pawn>		m_arrowArr;
 
+	GLuint					m_backImg;
+	
+	GLuint					m_animImg[2];
+
+	GLuint					m_paticleImg[2];
+
 private:
 	int						m_redAutoTime{ 0 };
 	int						m_blueTime{ 0 };
 
+	float					m_paticleTime{ 0 };
 public:
 	InGameScene();
 	virtual ~InGameScene();

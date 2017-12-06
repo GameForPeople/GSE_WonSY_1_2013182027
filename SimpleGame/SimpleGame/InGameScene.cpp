@@ -8,10 +8,14 @@ InGameScene::InGameScene()
 
 	BuildObject();
 
+	m_paticleTime = 0;
+
 	std::cout << std::endl << std::endl;
 	std::cout << "--------------------------------------------------------------------" << std::endl;
 	std::cout << "  게임 소프트 웨어 공학 프로젝트 SimpleGame   :  2013182027 원성연" << std::endl;
 	std::cout << "빠른 실습 검사를 위해 오브젝트 리스폰 타임을 많이 감소시켰습니다." << std::endl;
+	std::cout << "캐릭터의 체력UI가 짧아보일 수 있으나, 애니메이션을 잘 보일 수 있도록 캐릭터를 확대하여 일어난 문제점입니다." << std::endl;
+
 }
 
 InGameScene::~InGameScene()
@@ -27,19 +31,26 @@ void InGameScene::Create() {
 }
 
 void InGameScene::BuildObject() {
-	m_buildingArr.emplace_back(OBJECT_TYPE::OBJECT_BUILDING, TEAM_TYPE::RED_TEAM, 150, 200);
-	m_buildingArr.emplace_back(OBJECT_TYPE::OBJECT_BUILDING, TEAM_TYPE::RED_TEAM, 0, 200);
-	m_buildingArr.emplace_back(OBJECT_TYPE::OBJECT_BUILDING, TEAM_TYPE::RED_TEAM, -150, 200);
+	m_buildingArr.emplace_back(OBJECT_TYPE::OBJECT_BUILDING, TEAM_TYPE::RED_TEAM, 150, 300);
+	m_buildingArr.emplace_back(OBJECT_TYPE::OBJECT_BUILDING, TEAM_TYPE::RED_TEAM, 0, 300);
+	m_buildingArr.emplace_back(OBJECT_TYPE::OBJECT_BUILDING, TEAM_TYPE::RED_TEAM, -150, 300);
 
-	m_buildingArr.emplace_back(OBJECT_TYPE::OBJECT_BUILDING, TEAM_TYPE::BLUE_TEAM, 150, -200);
-	m_buildingArr.emplace_back(OBJECT_TYPE::OBJECT_BUILDING, TEAM_TYPE::BLUE_TEAM, 0, -200);
-	m_buildingArr.emplace_back(OBJECT_TYPE::OBJECT_BUILDING, TEAM_TYPE::BLUE_TEAM, -150, -200);
+	m_buildingArr.emplace_back(OBJECT_TYPE::OBJECT_BUILDING, TEAM_TYPE::BLUE_TEAM, 150, -300);
+	m_buildingArr.emplace_back(OBJECT_TYPE::OBJECT_BUILDING, TEAM_TYPE::BLUE_TEAM, 0, -300);
+	m_buildingArr.emplace_back(OBJECT_TYPE::OBJECT_BUILDING, TEAM_TYPE::BLUE_TEAM, -150, -300);
 
 	//Red
 	m_buildingTextureArr[0] = myRenderer->CreatePngTexture("./Resources/Textures/Building_1.png");
 	//Blue
 	m_buildingTextureArr[1] = myRenderer->CreatePngTexture("./Resources/Textures/Building_2.png");
 
+	m_backImg = myRenderer->CreatePngTexture("./Resources/Textures/BackImg_3.png");
+	
+	m_animImg[0] = myRenderer->CreatePngTexture("./Resources/Textures/RedDog.png");
+	m_animImg[1] = myRenderer->CreatePngTexture("./Resources/Textures/BlueDog.png");
+
+	m_paticleImg[0] = myRenderer->CreatePngTexture("./Resources/Textures/Paticle_Red.png");
+	m_paticleImg[1] = myRenderer->CreatePngTexture("./Resources/Textures/Paticle_Blue.png");
 
 	m_ownerArrow = 0;
 }
@@ -86,11 +97,37 @@ void InGameScene::Update(const DWORD elapsedTime) {
 
 	m_redAutoTime++;
 	m_blueTime++;
+
+	m_paticleTime += (float)(rand() % 100 / 100.0f);
 }
 
 void InGameScene::Draw() {
+
+	myRenderer->DrawTexturedRect(
+		0,
+		0,
+		0,
+		1000,
+		1,
+		1,
+		1,
+		1,
+		m_backImg,
+		DRAW_LEVEL_BACK
+	);
+
+
 	for (auto i : m_pawnArr) {
-		i.Draw(*myRenderer);
+		//i.Draw(*myRenderer);
+		i.DrawLife(*myRenderer);
+		if(i.GetTeam() == TEAM_TYPE::RED_TEAM)
+		myRenderer->DrawTexturedRectSeq(
+			i.GetPos().x, i.GetPos().y, 0, i.GetSize() + 50, 1, 1, 1, 1, m_animImg[0], i.GetAnimCount(), i.GetAnimDirection() , 3, 4, DRAW_LEVEL_CHARACTER
+		);
+		else if (i.GetTeam() == TEAM_TYPE::BLUE_TEAM)
+		myRenderer->DrawTexturedRectSeq(
+			i.GetPos().x, i.GetPos().y, 0, i.GetSize() + 50, 1, 1, 1, 1, m_animImg[1], i.GetAnimCount(), i.GetAnimDirection() , 3, 4, DRAW_LEVEL_CHARACTER
+		);
 	}
 
 	//for (auto i : m_buildingArr) {
@@ -141,10 +178,12 @@ void InGameScene::Draw() {
 		i.DrawLife(*myRenderer);
 	}
 
-
-
 	for (auto i : m_bulletArr) {
-		i.Draw(*myRenderer);
+		//i.Draw(*myRenderer);
+		if(i.GetTeam() == TEAM_TYPE::RED_TEAM)
+			myRenderer->DrawParticle(i.GetPos().x, i.GetPos().y, 0, i.GetSize()+ 5, 1, 1, 1, 1, -i.GetDirVector().x * 2, -i.GetDirVector().y * 2, m_paticleImg[0], m_paticleTime);
+		else if (i.GetTeam() == TEAM_TYPE::BLUE_TEAM)
+			myRenderer->DrawParticle(i.GetPos().x, i.GetPos().y, 0, i.GetSize() + 5, 1, 1, 1, 1, -i.GetDirVector().x * 2, -i.GetDirVector().y * 2, m_paticleImg[1], m_paticleTime);
 	}
 
 	for (auto i : m_arrowArr) {
