@@ -48,7 +48,7 @@ BuildingEscape/Content/StarterContent/
 # Compiled Dynamic libraries
 *.so
 *.dylib
-*.dll
+#*.dll
 
 # Fortran module files
 *.mod
@@ -57,10 +57,10 @@ BuildingEscape/Content/StarterContent/
 *.lai
 *.la
 *.a
-*.lib
+#*.lib
 
 # Executables
-*.exe
+#*.exe
 *.out
 *.app
 *.ipa
