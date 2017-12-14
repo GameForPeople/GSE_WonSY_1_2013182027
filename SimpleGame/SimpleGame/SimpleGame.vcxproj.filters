@@ -28,6 +28,9 @@
     <Filter Include="Scene">
       <UniqueIdentifier>{c4ebfd72-5ac6-444d-9cdb-7a5aeceaa334}</UniqueIdentifier>
     </Filter>
+    <Filter Include="소스 파일\Sound">
+      <UniqueIdentifier>{532d1d9d-c8b7-46ea-b78f-ab94f225561a}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />
@@ -63,6 +66,9 @@
     <ClInclude Include="LoadPng.h">
       <Filter>소스 파일\Shaders</Filter>
     </ClInclude>
+    <ClInclude Include="Sound.h">
+      <Filter>소스 파일\Sound</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="SimpleGame.cpp">
@@ -94,6 +100,9 @@
     </ClCompile>
     <ClCompile Include="LoadPng.cpp">
       <Filter>소스 파일\Shaders</Filter>
+    </ClCompile>
+    <ClCompile Include="Sound.cpp">
+      <Filter>소스 파일\Sound</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
