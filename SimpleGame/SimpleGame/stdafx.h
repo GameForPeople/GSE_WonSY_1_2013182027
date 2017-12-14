@@ -4,6 +4,7 @@
 #include "Renderer.h"
 #include "Dependencies\glew.h"
 #include "Dependencies\freeglut.h"
+#include "Sound.h"
 
 #include <stdio.h>
 #include <tchar.h>
@@ -63,6 +64,8 @@
 #define DRAW_LEVEL_BULLET			0.3f
 #define DRAW_LEVEL_ARROW			0.3f
 #define DRAW_LEVEL_BACK				0.99f
+#define DRAW_LEVEL_PATICLE			0.90f
+
 
 
 enum class OBJECT_TYPE {

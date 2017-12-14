@@ -39,9 +39,11 @@ public:
 
 public:
 	virtual void Update(const DWORD elapsedTime);
-	virtual void Draw(Renderer);
+//	virtual void Draw(Renderer);
+	virtual void Draw(Renderer&);
 
-	virtual void DrawLife(Renderer);
+
+	virtual void DrawLife(Renderer&);
 public:
 	virtual void Move(const Direction dir);
 	virtual void Move(const DWORD elapsedTime);

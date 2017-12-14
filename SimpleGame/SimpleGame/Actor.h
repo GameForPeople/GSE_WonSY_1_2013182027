@@ -25,9 +25,9 @@ public:
 public:
 	//void SetActor(float x, float y, float size, float colorR, float colorG, float colorB, float colorAlpha, float speed, float vectorX, float vectorY);
 	virtual void Update(const DWORD elapsedTime);
-	virtual void Draw(Renderer);
+	virtual void Draw(Renderer &);
 
-	virtual void DrawLife(Renderer);
+	virtual void DrawLife(Renderer &);
 
 public:
 	virtual void ObjectFunction(const DWORD elapsedTime);

@@ -12,7 +12,10 @@ class InGameScene :
 protected:
 	Renderer*				myRenderer;
 
+	Sound*					m_sound;
+	int						m_bgSound;
 private:
+
 	std::vector<Pawn>		m_pawnArr;
 	int						m_ownerArrow;
 

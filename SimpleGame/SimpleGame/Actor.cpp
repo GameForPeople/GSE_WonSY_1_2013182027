@@ -87,7 +87,7 @@ void Actor::Update(const DWORD elapsedTime) {
 	ObjectFunction(elapsedTime);
 }
 
-void Actor::Draw(Renderer g_Renderer) {
+void Actor::Draw(Renderer &g_Renderer) {
 	if (m_type == OBJECT_TYPE::OBJECT_BUILDING)
 		g_Renderer.DrawSolidRect(m_pos.x, m_pos.y, 0, m_size, m_color.x, m_color.y, m_color.z, m_color.a, DRAW_LEVEL_BUILDING);
 	else if (m_type == OBJECT_TYPE::OBJECT_CHARACTER)
@@ -100,7 +100,7 @@ void Actor::Draw(Renderer g_Renderer) {
 	Actor::DrawLife(g_Renderer);
 }
 
-void Actor::DrawLife(Renderer g_Renderer) {
+void Actor::DrawLife(Renderer &g_Renderer) {
 
 	if (m_type == OBJECT_TYPE::OBJECT_BUILDING)
 		g_Renderer.DrawSolidRectGauge(m_pos.x, m_pos.y + m_size / 2 , 0, m_size, 3, m_color.x, m_color.y, m_color.z, m_color.a, (float)m_life / (float)BUILDING_BASE_LIFE, DRAW_LEVEL_BUILDING);

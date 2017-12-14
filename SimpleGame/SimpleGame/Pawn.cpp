@@ -111,8 +111,22 @@ void Pawn::Animation() {
 	}
 }
 
-void Pawn::Draw(Renderer g_Renderer) {
-	if(m_type == OBJECT_TYPE::OBJECT_BUILDING)
+//void Pawn::Draw(Renderer g_Renderer) {
+//	if(m_type == OBJECT_TYPE::OBJECT_BUILDING)
+//		g_Renderer.DrawSolidRect(m_pos.x, m_pos.y, 0, m_size, m_color.x, m_color.y, m_color.z, m_color.a, DRAW_LEVEL_BUILDING);
+//	else if (m_type == OBJECT_TYPE::OBJECT_CHARACTER) {
+//		g_Renderer.DrawSolidRect(m_pos.x, m_pos.y, 0, m_size, m_color.x, m_color.y, m_color.z, m_color.a, DRAW_LEVEL_CHARACTER);
+//	}
+//	else if (m_type == OBJECT_TYPE::OBJECT_ARROW)
+//		g_Renderer.DrawSolidRect(m_pos.x, m_pos.y, 0, m_size, m_color.x, m_color.y, m_color.z, m_color.a, DRAW_LEVEL_ARROW);
+//	else if (m_type == OBJECT_TYPE::OBJECT_BULLET)
+//		g_Renderer.DrawSolidRect(m_pos.x, m_pos.y, 0, m_size, m_color.x, m_color.y, m_color.z, m_color.a, DRAW_LEVEL_BULLET);
+//
+//	DrawLife(g_Renderer);
+//}
+
+void Pawn::Draw(Renderer& g_Renderer) {
+	if (m_type == OBJECT_TYPE::OBJECT_BUILDING)
 		g_Renderer.DrawSolidRect(m_pos.x, m_pos.y, 0, m_size, m_color.x, m_color.y, m_color.z, m_color.a, DRAW_LEVEL_BUILDING);
 	else if (m_type == OBJECT_TYPE::OBJECT_CHARACTER) {
 		g_Renderer.DrawSolidRect(m_pos.x, m_pos.y, 0, m_size, m_color.x, m_color.y, m_color.z, m_color.a, DRAW_LEVEL_CHARACTER);
@@ -125,7 +139,7 @@ void Pawn::Draw(Renderer g_Renderer) {
 	DrawLife(g_Renderer);
 }
 
-void Pawn::DrawLife(Renderer g_Renderer) {
+void Pawn::DrawLife(Renderer& g_Renderer) {
 
 	if (m_type == OBJECT_TYPE::OBJECT_BUILDING)
 		g_Renderer.DrawSolidRectGauge(m_pos.x, m_pos.y + m_size, 0, m_size, 5, m_color.x, m_color.y, m_color.z, m_color.a, (float)m_life / (float)BUILDING_BASE_LIFE, DRAW_LEVEL_BUILDING);

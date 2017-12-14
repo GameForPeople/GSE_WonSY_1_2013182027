@@ -13,8 +13,11 @@ InGameScene::InGameScene()
 	std::cout << std::endl << std::endl;
 	std::cout << "--------------------------------------------------------------------" << std::endl;
 	std::cout << "  게임 소프트 웨어 공학 프로젝트 SimpleGame   :  2013182027 원성연" << std::endl;
-	std::cout << "빠른 실습 검사를 위해 오브젝트 리스폰 타임을 많이 감소시켰습니다." << std::endl;
-	std::cout << "캐릭터의 체력UI가 짧아보일 수 있으나, 애니메이션을 잘 보일 수 있도록 캐릭터를 확대하여 일어난 문제점입니다." << std::endl;
+	std::cout << "  렌더러가 터지는 문제가 발생합니다." << std::endl;
+	std::cout << "  실질적인 실행이 불가능하나, 구현은 완료했습니다. 감안해주시면 감사드리겠습니다 감사합니다." << std::endl;
+
+	m_sound = new Sound();
+	m_bgSound = m_sound->CreateSound("./Dependencies/SoundSamples/MF-W-90.XM");
 
 }
 
@@ -44,7 +47,7 @@ void InGameScene::BuildObject() {
 	//Blue
 	m_buildingTextureArr[1] = myRenderer->CreatePngTexture("./Resources/Textures/Building_2.png");
 
-	m_backImg = myRenderer->CreatePngTexture("./Resources/Textures/BackImg_3.png");
+	m_backImg = myRenderer->CreatePngTexture("./Resources/Textures/BackImg.png");
 	
 	m_animImg[0] = myRenderer->CreatePngTexture("./Resources/Textures/RedDog.png");
 	m_animImg[1] = myRenderer->CreatePngTexture("./Resources/Textures/BlueDog.png");
@@ -118,7 +121,7 @@ void InGameScene::Draw() {
 
 
 	for (auto i : m_pawnArr) {
-		//i.Draw(*myRenderer);
+		i.Draw(*myRenderer);
 		i.DrawLife(*myRenderer);
 		if(i.GetTeam() == TEAM_TYPE::RED_TEAM)
 		myRenderer->DrawTexturedRectSeq(
@@ -129,13 +132,12 @@ void InGameScene::Draw() {
 			i.GetPos().x, i.GetPos().y, 0, i.GetSize() + 50, 1, 1, 1, 1, m_animImg[1], i.GetAnimCount(), i.GetAnimDirection() , 3, 4, DRAW_LEVEL_CHARACTER
 		);
 	}
-
-	//for (auto i : m_buildingArr) {
-	//	i.Draw(*myRenderer);
-	//}
+	for (auto i : m_buildingArr) {
+		i.Draw(*myRenderer);
+	}
 
 	//if(m_buildingArr.size())
-	//myRenderer->DrawTexturedRect(
+	//	myRenderer->DrawTexturedRect(
 	//	m_buildingArr[0].GetPos().x,
 	//	m_buildingArr[0].GetPos().y,
 	//	0, 
@@ -144,7 +146,8 @@ void InGameScene::Draw() {
 	//	1, 
 	//	1, 
 	//	1, 
-	//	m_buildingTextureArr[0]
+	//	m_buildingTextureArr[0],
+	//	DRAW_LEVEL_BUILDING
 	//);
 
 	for (auto i : m_buildingArr) {
@@ -179,17 +182,19 @@ void InGameScene::Draw() {
 	}
 
 	for (auto i : m_bulletArr) {
-		//i.Draw(*myRenderer);
+		i.Draw(*myRenderer);
 		if(i.GetTeam() == TEAM_TYPE::RED_TEAM)
-			myRenderer->DrawParticle(i.GetPos().x, i.GetPos().y, 0, i.GetSize()+ 5, 1, 1, 1, 1, -i.GetDirVector().x * 2, -i.GetDirVector().y * 2, m_paticleImg[0], m_paticleTime);
+			myRenderer->DrawParticle(i.GetPos().x, i.GetPos().y, 0, i.GetSize()+ 5, 1, 1, 1, 1, -i.GetDirVector().x * 2, -i.GetDirVector().y * 2, m_paticleImg[0], m_paticleTime, DRAW_LEVEL_PATICLE);
 		else if (i.GetTeam() == TEAM_TYPE::BLUE_TEAM)
-			myRenderer->DrawParticle(i.GetPos().x, i.GetPos().y, 0, i.GetSize() + 5, 1, 1, 1, 1, -i.GetDirVector().x * 2, -i.GetDirVector().y * 2, m_paticleImg[1], m_paticleTime);
+			myRenderer->DrawParticle(i.GetPos().x, i.GetPos().y, 0, i.GetSize() + 5, 1, 1, 1, 1, -i.GetDirVector().x * 2, -i.GetDirVector().y * 2, m_paticleImg[1], m_paticleTime, DRAW_LEVEL_PATICLE);
 	}
 
 	for (auto i : m_arrowArr) {
 		i.Draw(*myRenderer);
 	}
 
+	myRenderer->DrawText(0, 0, GLUT_BITMAP_9_BY_15, 1, 1, 1, "Hello World!");
+	//myRenderer->DrawText(-CLIENT_WIDTH / 2 , CLIENT_HEIGHT / 2, GLUT_BITMAP_9_BY_15, 1, 1 ,1 ,"Hello!");
 }
 
 
@@ -200,6 +205,7 @@ void InGameScene::KeyProc(const unsigned char key, const int specKey) {
 
 void InGameScene::MouseProc(const int button, const int state, const int x, const int y) {
 	if (button == GLUT_LEFT_BUTTON && state == GLUT_UP) {
+		m_sound->PlaySound(m_bgSound, false, 0.2f);
 		AddBasePawn(x, y);
 	}
 }
