@@ -6,7 +6,6 @@ Pawn::Pawn()
 {
 }
 
-
 Pawn::~Pawn()
 {
 	Actor::~Actor();
@@ -34,6 +33,7 @@ Pawn::Pawn(const OBJECT_TYPE inputType, const TEAM_TYPE team, const float x, con
 
 	m_animCount = 0;
 	m_animTimer = 0;
+	m_paticleTime = 0;
 }
 
 Pawn::Pawn(OBJECT_TYPE inputType, const TEAM_TYPE team, float x, float y, float vectorX, float vectorY) : Actor(inputType, team, x, y) {
@@ -54,6 +54,7 @@ Pawn::Pawn(OBJECT_TYPE inputType, const TEAM_TYPE team, float x, float y, float 
 	m_dirVector.CalCulNomalVector(vectorX, vectorY);
 	m_animCount = 0 ;
 	m_animTimer = 0 ;
+	m_paticleTime = 0;
 }
 
 Pawn::Pawn(OBJECT_TYPE inputType, const TEAM_TYPE team, float x, float y, float vectorX, float vectorY, int inputOwner) : Actor(inputType, team, x, y) {
@@ -76,6 +77,7 @@ Pawn::Pawn(OBJECT_TYPE inputType, const TEAM_TYPE team, float x, float y, float 
 
 	m_animCount = 0;
 	m_animTimer = 0;
+	m_paticleTime = 0;
 }
 
 void Pawn::Update(const DWORD elapsedTime) {
@@ -83,6 +85,10 @@ void Pawn::Update(const DWORD elapsedTime) {
 	LimitMove();
 	//ObjectFunction(elapsedTime);
 	Animation();
+}
+
+void Pawn::UpdatePaticle(const DWORD elapsedTime) {
+	m_paticleTime += (float)(elapsedTime / 2000.0f);
 }
 
 void Pawn::Animation() {
@@ -142,9 +148,9 @@ void Pawn::Draw(Renderer& g_Renderer) {
 void Pawn::DrawLife(Renderer& g_Renderer) {
 
 	if (m_type == OBJECT_TYPE::OBJECT_BUILDING)
-		g_Renderer.DrawSolidRectGauge(m_pos.x, m_pos.y + m_size, 0, m_size, 5, m_color.x, m_color.y, m_color.z, m_color.a, (float)m_life / (float)BUILDING_BASE_LIFE, DRAW_LEVEL_BUILDING);
+		g_Renderer.DrawSolidRectGauge(m_pos.x, m_pos.y + m_size, 0, m_size, 5, m_color.x, m_color.y, m_color.z, m_color.a, (float)m_life / (float)BUILDING_BASE_LIFE, DRAW_LEVEL_BUILDING - 0.01f);
 	else if (m_type == OBJECT_TYPE::OBJECT_CHARACTER)								 
-		g_Renderer.DrawSolidRectGauge(m_pos.x , m_pos.y + m_size, 0, m_size, 5, m_color.x, m_color.y, m_color.z, m_color.a, (float)m_life / (float)CHARACTER_BASE_LIFE, DRAW_LEVEL_CHARACTER);
+		g_Renderer.DrawSolidRectGauge(m_pos.x , m_pos.y + m_size, 0, m_size, 5, m_color.x, m_color.y, m_color.z, m_color.a, (float)m_life / (float)CHARACTER_BASE_LIFE, DRAW_LEVEL_CHARACTER - 0.01f);
 	//else if (m_type == OBJECT_TYPE::OBJECT_ARROW)									 
 	//	g_Renderer.DrawSolidRectGauge(m_pos.x , m_pos.y + m_size, 0, m_size, 3, m_color.x, m_color.y, m_color.z, m_color.a, (float)m_life / (float)ARROW_BASE_LIFE, DRAW_LEVEL_LIFE);
 	//else if (m_type == OBJECT_TYPE::OBJECT_BULLET)									 

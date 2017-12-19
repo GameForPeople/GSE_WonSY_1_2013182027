@@ -29,6 +29,8 @@ private:
 	int				m_animTimer{};
 	int				m_animDirection{};
 
+	float			m_paticleTime{ 0 };
+
 public:
 	Pawn();
 	~Pawn();
@@ -51,6 +53,7 @@ public:
 	virtual void OutMoveDeath();
 
 	virtual void ObjectFunction(const DWORD elapsedTime);
+	virtual void UpdatePaticle(const DWORD elapsedTime);
 
 public:
 	void Animation();
@@ -60,6 +63,7 @@ public:
 	int GetOwner() const;
 	int GetAnimCount() const { return m_animCount; }
 	int GetAnimDirection() const { return m_animDirection; }
+	float GetPaticleTime() const { return m_paticleTime; }
 	Pos2D GetDirVector() const { return m_dirVector; }
 };
 

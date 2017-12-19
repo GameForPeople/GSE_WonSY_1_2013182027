@@ -103,9 +103,9 @@ void Actor::Draw(Renderer &g_Renderer) {
 void Actor::DrawLife(Renderer &g_Renderer) {
 
 	if (m_type == OBJECT_TYPE::OBJECT_BUILDING)
-		g_Renderer.DrawSolidRectGauge(m_pos.x, m_pos.y + m_size / 2 , 0, m_size, 3, m_color.x, m_color.y, m_color.z, m_color.a, (float)m_life / (float)BUILDING_BASE_LIFE, DRAW_LEVEL_BUILDING);
+		g_Renderer.DrawSolidRectGauge(m_pos.x, m_pos.y + m_size / 2 , 0, m_size, 3, m_color.x, m_color.y, m_color.z, m_color.a, (float)m_life / (float)BUILDING_BASE_LIFE, DRAW_LEVEL_BUILDING - 0.01f);
 	else if (m_type == OBJECT_TYPE::OBJECT_CHARACTER)
-		g_Renderer.DrawSolidRectGauge(m_pos.x, m_pos.y + m_size / 2, 0, m_size, 3, m_color.x, m_color.y, m_color.z, m_color.a, (float)m_life / (float)CHARACTER_BASE_LIFE, DRAW_LEVEL_CHARACTER);
+		g_Renderer.DrawSolidRectGauge(m_pos.x, m_pos.y + m_size / 2, 0, m_size, 3, m_color.x, m_color.y, m_color.z, m_color.a, (float)m_life / (float)CHARACTER_BASE_LIFE, DRAW_LEVEL_CHARACTER - 0.01f);
 	//else if (m_type == OBJECT_TYPE::OBJECT_ARROW)
 	//	g_Renderer.DrawSolidRectGauge(m_pos.x, m_pos.y + m_size / 2, 0, m_size, 3, m_color.x, m_color.y, m_color.z, m_color.a, (float)m_life / (float)ARROW_BASE_LIFE, DRAW_LEVEL_LIFE);
 	//else if (m_type == OBJECT_TYPE::OBJECT_BULLET)

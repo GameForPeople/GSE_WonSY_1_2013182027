@@ -64,6 +64,7 @@
 #define DRAW_LEVEL_BULLET			0.3f
 #define DRAW_LEVEL_ARROW			0.3f
 #define DRAW_LEVEL_BACK				0.99f
+#define DRAW_LEVEL_GLOBAL_PATICLE 	0.01f
 #define DRAW_LEVEL_PATICLE			0.90f
 
 

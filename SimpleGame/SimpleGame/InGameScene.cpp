@@ -9,16 +9,18 @@ InGameScene::InGameScene()
 	BuildObject();
 
 	m_paticleTime = 0;
+	m_globalPaticleTime = 0;
 
 	std::cout << std::endl << std::endl;
 	std::cout << "--------------------------------------------------------------------" << std::endl;
 	std::cout << "  게임 소프트 웨어 공학 프로젝트 SimpleGame   :  2013182027 원성연" << std::endl;
-	std::cout << "  렌더러가 터지는 문제가 발생합니다." << std::endl;
-	std::cout << "  실질적인 실행이 불가능하나, 구현은 완료했습니다. 감안해주시면 감사드리겠습니다 감사합니다." << std::endl;
+	std::cout << "  렌더러가 터지는 문제 수정했습니다.." << std::endl;
+	std::cout << "  글로벌 파티클이 아닌 객체별 파티클타임은 객체 내부에서 확인 가능합니다. 감사합니다." << std::endl;
 
 	m_sound = new Sound();
 	m_bgSound = m_sound->CreateSound("./Dependencies/SoundSamples/MF-W-90.XM");
 
+	m_sound->PlaySound(m_bgSound, false, 0.2f);
 }
 
 InGameScene::~InGameScene()
@@ -47,13 +49,16 @@ void InGameScene::BuildObject() {
 	//Blue
 	m_buildingTextureArr[1] = myRenderer->CreatePngTexture("./Resources/Textures/Building_2.png");
 
-	m_backImg = myRenderer->CreatePngTexture("./Resources/Textures/BackImg.png");
+	m_backImg = myRenderer->CreatePngTexture("./Resources/Textures/BackImg_3.png");
 	
 	m_animImg[0] = myRenderer->CreatePngTexture("./Resources/Textures/RedDog.png");
 	m_animImg[1] = myRenderer->CreatePngTexture("./Resources/Textures/BlueDog.png");
 
 	m_paticleImg[0] = myRenderer->CreatePngTexture("./Resources/Textures/Paticle_Red.png");
 	m_paticleImg[1] = myRenderer->CreatePngTexture("./Resources/Textures/Paticle_Blue.png");
+
+	m_globalPaticleImg[0] = myRenderer->CreatePngTexture("./Resources/Textures/Paticle_Snow.png");
+	m_globalPaticleImg[1] = myRenderer->CreatePngTexture("./Resources/Textures/Paticle_Rain.png");
 
 	m_ownerArrow = 0;
 }
@@ -69,6 +74,7 @@ void InGameScene::Update(const DWORD elapsedTime) {
 	for (int i = 0; i < m_bulletArr.size(); i++) {
 		m_bulletArr[i].Move(elapsedTime);
 		m_bulletArr[i].OutMoveDeath();
+		m_bulletArr[i].UpdatePaticle(elapsedTime);
 	}
 
 	for (int i = 0; i < m_arrowArr.size(); i++) {
@@ -102,6 +108,8 @@ void InGameScene::Update(const DWORD elapsedTime) {
 	m_blueTime++;
 
 	m_paticleTime += (float)(rand() % 100 / 100.0f);
+
+	m_globalPaticleTime += (float)elapsedTime / 2000;
 }
 
 void InGameScene::Draw() {
@@ -184,17 +192,18 @@ void InGameScene::Draw() {
 	for (auto i : m_bulletArr) {
 		i.Draw(*myRenderer);
 		if(i.GetTeam() == TEAM_TYPE::RED_TEAM)
-			myRenderer->DrawParticle(i.GetPos().x, i.GetPos().y, 0, i.GetSize()+ 5, 1, 1, 1, 1, -i.GetDirVector().x * 2, -i.GetDirVector().y * 2, m_paticleImg[0], m_paticleTime, DRAW_LEVEL_PATICLE);
+			myRenderer->DrawParticle(i.GetPos().x, i.GetPos().y, 0, i.GetSize()+ 5, 1, 1, 1, 1 - i.GetPaticleTime(), -i.GetDirVector().x * 2, -i.GetDirVector().y * 2, m_paticleImg[0], i.GetPaticleTime(), DRAW_LEVEL_PATICLE);
 		else if (i.GetTeam() == TEAM_TYPE::BLUE_TEAM)
-			myRenderer->DrawParticle(i.GetPos().x, i.GetPos().y, 0, i.GetSize() + 5, 1, 1, 1, 1, -i.GetDirVector().x * 2, -i.GetDirVector().y * 2, m_paticleImg[1], m_paticleTime, DRAW_LEVEL_PATICLE);
+			myRenderer->DrawParticle(i.GetPos().x, i.GetPos().y, 0, i.GetSize() + 5, 1, 1, 1, 1 - i.GetPaticleTime(), -i.GetDirVector().x * 2, -i.GetDirVector().y * 2, m_paticleImg[1], i.GetPaticleTime(), DRAW_LEVEL_PATICLE);
 	}
 
 	for (auto i : m_arrowArr) {
 		i.Draw(*myRenderer);
 	}
 
+	myRenderer->DrawParticleClimate(0, 0, 0, 3, 1, 1, 1, 1, sin(m_globalPaticleTime), -0.5, m_globalPaticleImg[0], m_globalPaticleTime , DRAW_LEVEL_GLOBAL_PATICLE);
+
 	myRenderer->DrawText(0, 0, GLUT_BITMAP_9_BY_15, 1, 1, 1, "Hello World!");
-	//myRenderer->DrawText(-CLIENT_WIDTH / 2 , CLIENT_HEIGHT / 2, GLUT_BITMAP_9_BY_15, 1, 1 ,1 ,"Hello!");
 }
 
 
@@ -205,7 +214,6 @@ void InGameScene::KeyProc(const unsigned char key, const int specKey) {
 
 void InGameScene::MouseProc(const int button, const int state, const int x, const int y) {
 	if (button == GLUT_LEFT_BUTTON && state == GLUT_UP) {
-		m_sound->PlaySound(m_bgSound, false, 0.2f);
 		AddBasePawn(x, y);
 	}
 }
