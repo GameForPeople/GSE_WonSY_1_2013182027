@@ -14,8 +14,16 @@ InGameScene::InGameScene()
 	std::cout << std::endl << std::endl;
 	std::cout << "--------------------------------------------------------------------" << std::endl;
 	std::cout << "  게임 소프트 웨어 공학 프로젝트 SimpleGame   :  2013182027 원성연" << std::endl;
-	std::cout << "  렌더러가 터지는 문제 수정했습니다.." << std::endl;
-	std::cout << "  글로벌 파티클이 아닌 객체별 파티클타임은 객체 내부에서 확인 가능합니다. 감사합니다." << std::endl;
+	std::cout << "  final 인공 지능 및 리소스 수정, 게임성 변경 " << std::endl;
+	std::cout << "  1. 오브젝트를 근거리공격형, 원거리공격형, 중기갑형으로 구분하였습니다." << std::endl;
+	std::cout << "  2. 원거리 오브젝트의 경우 다른 오브젝트를 검색하여 이에 맞게 이동합니다." << std::endl;
+	std::cout << "  3. 리소스 클래시 로얄에 맞게 수정하였습니다." << std::endl;
+	std::cout << "  4. 게임성을 일부 규정된 값들을 수정하였습니다." << std::endl;
+	std::cout << "		4 - 1. 충돌체크 일부 변화" << std::endl;
+	std::cout << "		4 - 2. 쿨타임 변화 및 다양한 타이머 추가." << std::endl;
+	std::cout << "		4 - 3. 글로벌 파티클 --> 마법 주문 시 효과 적용." << std::endl;
+	std::cout << "		4 - 4. 오브젝트 기본 능력치 변경." << std::endl;
+
 
 	m_sound = new Sound();
 	m_bgSound = m_sound->CreateSound("./Dependencies/SoundSamples/MF-W-90.XM");
