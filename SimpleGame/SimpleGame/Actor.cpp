@@ -38,6 +38,42 @@ Actor::Actor(const OBJECT_TYPE inputType, const TEAM_TYPE team, const float x, c
 		}
 }
 
+Actor::Actor(const OBJECT_TYPE inputType, const TEAM_TYPE team, const float x, const float y, const int inputIndex) : Object(inputType, team, x, y) {
+
+	if (team == TEAM_TYPE::RED_TEAM) {
+		if (inputType == OBJECT_TYPE::OBJECT_CHARACTER) {
+			m_color = CHARACTER_RED_CLOLR;
+		}
+		else if (inputType == OBJECT_TYPE::OBJECT_BUILDING) {
+			m_color = BUILDING_RED_CLOLR;
+		}
+		else if (inputType == OBJECT_TYPE::OBJECT_BULLET) {
+			m_color = BULLET_RED_CLOLR;
+		}
+		else if (inputType == OBJECT_TYPE::OBJECT_ARROW) {
+			m_color = ARROW_RED_CLOLR;
+		}
+	}
+	else if (team == TEAM_TYPE::BLUE_TEAM) {
+		if (inputType == OBJECT_TYPE::OBJECT_CHARACTER) {
+			m_color = CHARACTER_BLUE_CLOLR;
+		}
+		else if (inputType == OBJECT_TYPE::OBJECT_BUILDING) {
+			m_color = BUILDING_BLUE_CLOLR;
+		}
+		else if (inputType == OBJECT_TYPE::OBJECT_BULLET) {
+			m_color = BULLET_BLUE_CLOLR;
+		}
+		else if (inputType == OBJECT_TYPE::OBJECT_ARROW) {
+			m_color = ARROW_BLUE_CLOLR;
+		}
+	}
+
+	m_index = inputIndex;
+	m_nextRespone = WEAPON_TYPE::SWORD;
+}
+
+
 Actor::Actor(OBJECT_TYPE inputType, TEAM_TYPE team,  Pos2D pos, Pos2D direction) : Object(inputType, team, pos.x, pos.y) {
 	if (inputType == OBJECT_TYPE::OBJECT_CHARACTER) {
 		m_color = CHARACTER_BASE_CLOLR;
@@ -51,6 +87,7 @@ Actor::Actor(OBJECT_TYPE inputType, TEAM_TYPE team,  Pos2D pos, Pos2D direction)
 	else if (inputType == OBJECT_TYPE::OBJECT_ARROW) {
 		m_color = ARROW_BASE_CLOLR;
 	}
+	m_nextRespone = WEAPON_TYPE::SWORD;
 }
 
 Actor::Actor(OBJECT_TYPE inputType, TEAM_TYPE team,  float x, float y, float vectorX, float vectorY) : Object(inputType, team, x, y) {
@@ -66,6 +103,8 @@ Actor::Actor(OBJECT_TYPE inputType, TEAM_TYPE team,  float x, float y, float vec
 	else if (inputType == OBJECT_TYPE::OBJECT_ARROW) {
 		m_color = ARROW_BASE_CLOLR;
 	}
+
+	m_nextRespone = WEAPON_TYPE::SWORD;
 }
 
 //void Actor::SetActor(float x, float y, float size, float colorR, float colorG, float colorB, float colorAlpha, float speed, float vectorX, float vectorY)  {

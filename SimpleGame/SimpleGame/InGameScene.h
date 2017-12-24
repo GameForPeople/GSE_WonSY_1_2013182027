@@ -28,13 +28,18 @@ private:
 
 	GLuint					m_backImg;
 	
-	GLuint					m_animImg[2];
+	GLuint					m_animImg[2][3];
+
+	GLuint					m_endImg;
 
 	GLuint					m_paticleImg[2];
 	GLuint					m_globalPaticleImg[2];
 
+	WEAPON_TYPE				m_nowWeaponType = WEAPON_TYPE::SWORD;
+	bool					m_globalPaticle{ false };
+	bool					m_gameEnd{ false };
+
 private:
-	int						m_redAutoTime{ 0 };
 	int						m_blueTime{ 0 };
 
 	float					m_paticleTime{ 0 };
@@ -53,7 +58,8 @@ public:
 	
 public:
 	void BuildObject();
-
+	void AI();
+	void AI_1();
 public:
 	void AddRedPawn();
 	void AddBasePawn(const int x, const int y);

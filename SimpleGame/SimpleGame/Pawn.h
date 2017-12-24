@@ -31,13 +31,21 @@ private:
 
 	float			m_paticleTime{ 0 };
 
+	float			m_arrowTime{ 0 };
+
 public:
 	Pawn();
 	~Pawn();
 
 	Pawn(const OBJECT_TYPE inputType, const TEAM_TYPE team, const float x, const float y);
+
 	Pawn(const OBJECT_TYPE inputType, const TEAM_TYPE team, const float x, const float y, const float vectorX, const float vectorY);
-	Pawn(const OBJECT_TYPE inputType, const TEAM_TYPE team, const float x, const float y, const float vectorX, const float vectorY, const int m_owner);
+	Pawn(const OBJECT_TYPE inputType, const TEAM_TYPE team, const WEAPON_TYPE weapon, const float x, const float y, const float vectorX, const float vectorY);
+
+	Pawn(const OBJECT_TYPE inputType, const TEAM_TYPE team, const float x, const float y, const float vectorX, const float vectorY, const int index);
+	Pawn(const OBJECT_TYPE inputType, const TEAM_TYPE team, const float x, const float y, const float vectorX, const float vectorY, const int m_owner, const int index);
+
+	WEAPON_TYPE m_weapon = WEAPON_TYPE::SWORD;
 
 public:
 	virtual void Update(const DWORD elapsedTime);
@@ -57,9 +65,11 @@ public:
 
 public:
 	void Animation();
-
+	
 public:
 	void SetSpeed(const float);
+	void SetDir(float x, float y);
+
 	int GetOwner() const;
 	int GetAnimCount() const { return m_animCount; }
 	int GetAnimDirection() const { return m_animDirection; }
